@@ -1,8 +1,20 @@
+![logo](https://raw.githubusercontent.com/bitsent/BitBtn/master/logo-text-transperant.png)
+
 # BitBtn
 
 An UI Button for interacting with **Bitcoin SV** wallets (written in pure JS - no dependencies)
 
 License: **OPEN ONLY-BSV-SPECIFIC LICENSE**
+
+# Importing
+
+Just import the minified version of the code in your website.
+
+Everything is contained in 1 file (smaller than 50KB)
+
+```html
+    <script src="bitbtn.min.js"></script>
+```
 
 # Usage
 
@@ -17,6 +29,8 @@ btn = bitbtn.create(
         onError: function (error) { console.log(error); },
     });
 ```
+
+![BTN](https://raw.githubusercontent.com/bitsent/BitBtn/master/btn.PNG)
 
 # How it works
 
