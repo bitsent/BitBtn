@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<head>
+    <title>BTN Manual Test</title>
+</head>
+
+<body>
+    <style>
+        #console-area{
+            margin:auto;
+            margin-top: 2em;
+            width:80%;
+            height: 15em;
+            overflow-y: scroll;
+            overflow-x: inherit;
+            background: rgb(66, 66, 66);
+            color: white;
+        }
+        #console-area .error {
+            color: rgb(255, 98, 98);
+        }
+        #console-area a {
+            color:inherit;
+        }
+    </style>
+
+    <div id="button-area">
+    </div>
+
+    <div id="console-area"></div>
+
+    <script src="../../src/bitbtn.min.js"></script>
+
+    <script>
+        btnArea = document.getElementById("button-area");
+
+        btn = bitbtn.create(btnArea,
+            {
+                label: "Pay!",
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 1.247,
+                currency: "USD",
+                onError: function (error) { console.log(error); },
+            });
+    </script>
+
+    <script>
+        (function(){
+            var defaultLog = console.log;
+            var defaultErr = console.error;
+
+            var consoleArea = document.getElementById("console-area");
+
+            consoleArea.appendLine = function(args, lineClass) {
+                var line = document.createElement("div");
+                line.classList.add(lineClass);
+                for(var i = 0; i<args.length; i++) {
+                    line.append(args[i] + " ");
+                }
+                consoleArea.appendChild(line);
+            };
+
+            console.log = function(){
+                defaultLog.apply(this, arguments);
+                consoleArea.appendLine(arguments, "log");
+            };
+            console.error = function(){
+                defaultErr.apply(this, arguments);
+                consoleArea.appendLine(arguments, "error");
+            };
+
+            window.onerror = function(errorMsg, url, lineNumber) {
+                var line = document.createElement("div");
+                line.classList.add("error");
+                line.innerHTML = "[ERROR] '" + errorMsg + "' in <a href='"+url+"'>"
+                    + url.substring(url.lastIndexOf("/"))+"</a> : line " + lineNumber
+                consoleArea.appendChild(line);
+            };
+
+            function addLoggingToBtn(btn){
+                var oldClick = btn.onclick;
+                btn.onclick = function() {
+                    console.log("[EVENT] BitBtn Clicked!");
+                    oldClick.apply(this, arguments);
+                };
+            }
+
+            var bitBtns = document.getElementsByClassName("bitbtn");
+            for(var b in bitBtns){
+                addLoggingToBtn(bitBtns[b]);
+            }
+        }());
+
+    </script>
+</body>
+
+</html>

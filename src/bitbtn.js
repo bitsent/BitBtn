@@ -1,17 +1,17 @@
 /*jshint esversion: 6 */
-
-//---------------------------------------------------------------------
-// BitBtn
-//
-// Copyright 2019 Aleksandar Dinkov
-//
-// URL: http://www.d-project.com/
-//
-// Licensed under the OPEN ONLY-BSV-SPECIFIC LICENSE (v0.3.0):
-//   https://github.com/Pipe-Cash/OPEN-BLOCKCHAIN-SPECIFIC-LICENSE/releases/tag/v0.3.0
-//
-//---------------------------------------------------------------------
-
+/*
+* ---------------------------------------------------------------------
+*  BitBtn
+* 
+*  Copyright 2019 Aleksandar Dinkov
+* 
+*  URL: http://www.d-project.com/
+* 
+*  Licensed under the OPEN ONLY-BSV-SPECIFIC LICENSE (v0.3.0):
+*    https://github.com/Pipe-Cash/OPEN-BLOCKCHAIN-SPECIFIC-LICENSE/releases/tag/v0.3.0
+* 
+* ---------------------------------------------------------------------
+*/
 bitbtn = (function bitbtn() {
 
     function getTimestamp() {
