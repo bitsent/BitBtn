@@ -510,7 +510,7 @@ bitbtn = (function bitbtn() {
             }
 
             if (!("successMessage" in params)) {
-                params.label = "Done!";
+                params.successMessage = "Done!";
             }
             if (typeof params.successMessage !== "string") {
                 throw new TypeError("BitBtn SuccessMessage must be a string!");
