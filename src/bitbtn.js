@@ -339,13 +339,12 @@ bitbtn = (function bitbtn() {
             "bitcoin-out": "<TODO: Implement bitcoin-out>"
         };
 
-        function showAlternatives(uri) {
+        function showAlternatives(uri, showQR) {
             var modal = initModal();
 
             var uriScheme = uri.substr(0, uri.indexOf(':'));
 
-            if (uri) {
-
+            if (showQR) {
                 var imgContainer = createEl("div", ["qr-code-img"], []);
                 new QRCode(imgContainer, uri);
 
@@ -855,7 +854,7 @@ bitbtn = (function bitbtn() {
         if (showQR && !btn.params.bip21)
             waitForPayment(btn);
 
-        modalWindow.showAlternatives(showQR ? btn.appLink : undefined);
+        modalWindow.showAlternatives(btn.appLink, showQR);
     }
 
     function onBtnClick(btn) {
