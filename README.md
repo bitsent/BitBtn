@@ -6,6 +6,16 @@ An UI Button for interacting with **Bitcoin SV** wallets (written in pure JS - n
 
 License: **OPEN ONLY-BSV-SPECIFIC LICENSE**
 
+# Importing
+
+Just import the minified version of the code in your website.
+
+Everything is contained in 1 file (smaller than 50KB)
+
+```html
+    <script src="bitbtn.min.js"></script>
+```
+
 # Usage
 
 ```js
