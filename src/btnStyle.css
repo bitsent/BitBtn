@@ -86,6 +86,7 @@
 }
 
 .bitbtn .bitbtn-amount {
+    display: inline-block;
     background: #ffffff50;
     border-radius: 10%;
     padding: 0 3px;
