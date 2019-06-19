@@ -859,8 +859,6 @@ bitbtn = (function bitbtn() {
     }
 
     function onBtnClick(btn) {
-
-        // the actual code:
         openBitcoinUri(btn,
             success = function () {
                 if (btn.params.bip21 === true) {
@@ -884,9 +882,10 @@ bitbtn = (function bitbtn() {
             btn.onclick = function (e) {
                 onBtnClick(e.currentTarget);
             }
+            return btn;
         } catch (e) {
             var onError = params.onError || (function (_) {});
-            modalWindow.showError(e)
+            modalWindow.showError(e);
             onError(e);
         }
     }
