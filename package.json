@@ -1,14 +1,14 @@
 {
   "name": "bitbtn",
   "version": "0.1.0",
-  "description": "A Button for Bitcoin Payments via DeepLink",
-  "main": "bitbtn.js",
+  "description": "An UI Button for interacting with Bitcoin SV wallets (written in pure JS - no dependencies)",
+  "main": "src\bitbtn.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://BitcoinSofia@bitbucket.org/BitcoinSofia/bitbtn.git"
+    "url": "https://github.com/bitsent/BitBtn"
   },
   "keywords": [
     "bitcoin",
@@ -17,7 +17,7 @@
     "btn"
   ],
   "author": "Aleksandar Dinkov",
-  "license": "SEE LICENSE IN license.md",
-  "homepage": "https://bitbucket.org/BitcoinSofia/bitbtn#readme",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "homepage": "https://github.com/bitsent/BitBtn",
   "dependencies": {  }
 }
