@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<head>
+    <title>BTN</title>
+</head>
+
+<body>
+
+    <div id="button-area">
+    </div>
+
+    <script src="src/bitbtn.min.js"></script>
+
+    <script>
+        btnArea = document.getElementById("button-area");
+
+        btn = bitbtn.create(btnArea,
+            {
+                label: "Pay!",
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 0.1111111111111111111111,
+                currency: "USD",
+                onError: function (error) { console.log(error); },
+            });
+
+        // // NOTE: This syntax is not supported yet.
+        // //            It will be, once Output URI BIP is fully implemented.
+        //
+        // btn = bitbtn.create(btnArea,
+        //     {
+        //         label: "Pay !!",
+        //         successMessage: "Done !!",
+        //         onPayment: function (payment) { alert("success") },
+        //         onError: function (error) { alert(error); },
+        //         outputs: [
+        //             {
+        //                 address: "16gsUKFNLSqVVg6ax5TXmvx1GWjffxMGV6",
+        //                 amount: "0.085",
+        //                 currency: "USD"
+        //             },
+        //             {
+        //                 address: "1KWzpdQAwd4kDEaLu5cWJ54yJ8WCgAGizQ",
+        //                 amount: 0.015,
+        //                 currency: "USD"
+        //             }
+        //         ]
+        //     });
+        // 
+        // // NOTE: This syntax is not supported yet.
+        // //            It will be, once Output URI BIP is fully implemented.
+        //
+        // btn = bitbtn.create(btnArea,
+        //     {
+        //         label: "Post To Memo",
+        //         successMessage: "Done",
+        //         onPayment: function (payment) { alert("success") },
+        //         onError: function (error) { alert(error); },
+        //         outputs: [
+        //             {
+        //                 value: 0.00,
+        //                 script: "OP_RETURN 621 4920617070726F7665207468697320424950"
+        //             }
+        //         ]
+        //     });
+        
+
+    </script>
+
+</body>
+
+</html>
