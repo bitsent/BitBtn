@@ -34,6 +34,17 @@ btn = bitbtn.create(
 
 ![BTN](https://raw.githubusercontent.com/bitsent/BitBtn/master/btn.PNG)
 
+# Testing
+
+The current version of the button is **UNTESTED**.
+There are no automated tests yet.
+Manual testing is not done either.
+
+To test manually, please follow [This Link to the Manual Test Page](https://raw.githack.com/bitsent/BitBtn/master/test/manual/manual.html) and follow the instructions.
+
+If you see an error, take a screenshot and include it in a GitHub Issue.
+...Or you can just tweet it at me (@bitcoinsofia)
+
 # How it works
 
 - The button triggers a **BIP21 URI deep link**.
