@@ -8,6 +8,8 @@ License: **OPEN ONLY-BSV-SPECIFIC LICENSE**
 
 # Importing
 
+Get a released version from NPM : [![NPM version](https://badge.fury.io/js/bitbtn.svg)](https://npmjs.org/package/bitbtn)
+
 Just import the minified version of the code in your website.
 
 Everything is contained in 1 file (smaller than 50KB)
