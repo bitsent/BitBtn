@@ -183,7 +183,13 @@ bitbtn = (function bitbtn() {
                  *  },
                  */
             ],
-            'Android': [],
+            'Android': [
+                {
+                    name: "Simply Cash",
+                    img: "https://simply.cash/img/simply-icon-512x512.png",
+                    app: "https://play.google.com/store/apps/details?id=cash.simply.wallet",
+                },
+            ],
             'Open BSD': [],
             'Sun OS': [],
             'Linux': [],
@@ -343,6 +349,10 @@ bitbtn = (function bitbtn() {
             var modal = initModal();
 
             var uriScheme = uri.substr(0, uri.indexOf(':'));
+            if (!(uriScheme in supportedWalletsByOS)){
+                console.log("Unknown URI scheme: (" + uri + "). Showing alternatives for BIP21 instead.");
+                uriScheme = "bitcoin";
+            }
 
             if (showQR) {
                 var imgContainer = createEl("div", ["qr-code-img"], []);
