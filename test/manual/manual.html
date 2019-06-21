@@ -24,45 +24,93 @@
         }
     </style>
 
+    <h1>Regular BitBtn</h1>
     <div id="button-area">
+    </div>
+    <h1>Open Other Links</h1>
+    <div id="other-button-area">
     </div>
 
     <div id="console-area"></div>
 
-    <h3>How to test positive scenario:</h3>
+    <h3>How to test Payment:</h3>
     <ul>
         <li>Open this page in the most popular browsers for your device type.</li>
         <li>Make sure you have a wallet that supports BIP21 deep links!</li>
-        <li>Did your OS ask you to open your wallet?</li>
-        <li>Did the circle in the button become green?</li>
-        <li>Did any errors apear in the console (the black box)?</li>
-        <li>Take a screenshot of what happened.</li>
+        <li>- Did your OS ask you to open your wallet?</li>
+        <li>- Did the circle in the button become green?</li>
+        <li>- Did any errors apear in the console (the black box)?</li>
+        <li>- Take a screenshot of what happened.</li>
     </ul>
-    <h3>How to test negative scenario:</h3>
+
+    <h3>How to test opening an app without having a wallet:</h3>
+    <ul>
+        <li>This is most useful on smartphones.</li>
+        <li>Open this page in the most popular browsers for your device type.</li>
+        <li>Make sure you have the facebook application installed!</li>
+        <li>Test if Facebook App opens the normal way, by clicking here: <a href="fb://page/">Open Facebook App</a></li>
+        <li>If this worked, click the "Facebook App" button</li>
+        <li>- Did Facebook Open?</li>
+        <li>- Did the circle in the button become green?</li>
+        <li>- Were there any errors in the console (the black box)?</li>
+        <li>- Take a screenshot of what happened?</li>
+    </ul>
+
+    <h3>How to test not having a wallet, without uninstalling your wallet:</h3>
     <ul>
         <li>Open this page in the most popular browsers for your device type.</li>
-        <li>Make sure you <u>DO NOT HAVE</u> a wallet that supports BIP21 deep links!</li>
-        <li>Did a modal window open to tell you of alternative ways to continue?</li>
-        <li>If you are on desktop, did the it contain a valid QR code?</li>
-        <li>If you are on mobile, was the QR code hidden?</li>
-        <li>Did the circle in the button become red?</li>
-        <li>Did any errors apear in the console (the black box)?</li>
-        <li>Take a screenshot of what happened.</li>
+        <li>Click on the "This button will always Fail" button!</li>
+        <li>- Did the Modal Window pop up?</li>
+        <li>- Did the Modal Window wook normal?</li>
+        <li>- (If you are on desktop) Did the QR code appear?</li>
+        <li>- (If you are NOT on desktop) Did the QR code NOT appear?</li>
+        <li>- Did the list of possible wallets to download appear?</li>
+        <li>- Did the circle in the button become red?</li>
+        <li>- Were there any errors in the console (the black box)?</li>
+        <li>- Take a screenshot of what happened?</li>
     </ul>
 
     <script src="../../src/bitbtn.js"></script>
 
     <script>
-        btnArea = document.getElementById("button-area");
 
-        btn = bitbtn.create(btnArea,
+        btn = bitbtn.create(document.getElementById("button-area"),
             {
                 label: "Pay!",
                 address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
                 amount: 1.247,
                 currency: "USD",
-                onError: function (error) { console.log(error); },
+                onError: function (error) { console.error(error); },
             });
+
+    </script>
+
+    <script>
+
+        btn = bitbtn.create(document.getElementById("other-button-area"),
+            {
+                label: "Facebook App",
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 0.0000001,
+                currency: "USD",
+                onError: function (error) { console.error(error); },
+            });
+
+        btn.setURI("fb://page/");
+        btn.setAmount("");
+
+        btn = bitbtn.create(document.getElementById("other-button-area"),
+            {
+                label: "This button will always Fail",
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 0.0000001,
+                currency: "USD",
+                onError: function (error) { console.error(error); },
+            });
+
+        btn.setURI("nosuchapplicationuri:");
+        btn.setAmount("");
+
     </script>
 
     <script>
