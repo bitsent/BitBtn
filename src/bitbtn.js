@@ -359,22 +359,24 @@ bitbtn = (function bitbtn() {
 
             ////// OFFER WALLET APPS //////
 
-            var supportedWalletItems = supportedWalletsByOS[uriScheme][os].map(
-                function (w) {
-                    var img = createEl("img", ["wallet-item-img"], []);
-                    img.src = w.img;
-                    var name = createEl("h4", ["wallet-item-name"], []);
-                    name.append(w.name);
-                    var item = createEl("li", ["wallet-item"], [img, name]);
-                    item.onclick = function (e) {
-                        window.open(w.app, "_self");
-                    };
-                    return item;
-                });
+            try {
+                var supportedWalletItems = supportedWalletsByOS[uriScheme][os].map(
+                    function (w) {
+                        var img = createEl("img", ["wallet-item-img"], []);
+                        img.src = w.img;
+                        var name = createEl("h4", ["wallet-item-name"], []);
+                        name.append(w.name);
+                        var item = createEl("li", ["wallet-item"], [img, name]);
+                        item.onclick = function (e) {
+                            window.open(w.app, "_self");
+                        };
+                        return item;
+                    });
+            } catch (error) { supportedWalletItems = [] }
 
             var walletList = createEl("ul", ["wallet-list"], supportedWalletItems);
 
-            var dataToInclude = supportedWalletsByOS[uriScheme][os].length > 0 ?
+            var dataToInclude = supportedWalletItems.length > 0 ?
                 walletList : createEl("p", [], [], "No wallets found for your Operating System");
 
             var osLabel = createEl("p", [], [], "Your OS is : " + os);
@@ -766,17 +768,23 @@ bitbtn = (function bitbtn() {
         }
     }
 
+    var isListeningForHideAndBlur = false;
     function openBitcoinUri(btn, success, failure) {
         var appLink = btn.appLink;
         if (!appLink) throw new TypeError("AppLink not present.");
 
         var appLinkOpened = false;
-        window.addEventListener('pagehide', function () {
-            appLinkOpened = true;
-        }, false);
-        window.addEventListener('blur', function () {
-            appLinkOpened = true;
-        }, false);
+
+        if (!isListeningForHideAndBlur) {
+            window.addEventListener('pagehide', function () {
+                appLinkOpened = true;
+            }, false);
+            window.addEventListener('blur', function () {
+                appLinkOpened = true;
+            }, false);
+
+            isListeningForHideAndBlur = true;
+        }
 
         var iframeWithURI = document.createElement('iframe');
         iframeWithURI.style.display = "none";
@@ -869,6 +877,9 @@ bitbtn = (function bitbtn() {
             failure = function () {
                 btn.showErrorInCircle();
                 showAlternatives(btn);
+                var onError = btn.params.onError || (function (_) {});
+                onError(new Error("Did not detect app opening. " +
+                    "Assuming that the user doesn't have a matching app."));
             });
     }
 
