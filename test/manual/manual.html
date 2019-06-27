@@ -19,6 +19,9 @@
         #console-area .error {
             color: rgb(255, 98, 98);
         }
+        #console-area .warn {
+            color: rgb(255, 164, 28);
+        }
         #console-area a {
             color:inherit;
         }
@@ -74,49 +77,15 @@
 
     <script>
 
-        btn = bitbtn.create(document.getElementById("button-area"),
-            {
-                label: "Pay!",
-                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
-                amount: 1.247,
-                currency: "USD",
-                onError: function (error) { console.error(error); },
-            });
 
     </script>
 
-    <script>
-
-        btn = bitbtn.create(document.getElementById("other-button-area"),
-            {
-                label: "Facebook App",
-                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
-                amount: 0.0000001,
-                currency: "USD",
-                onError: function (error) { console.error(error); },
-            });
-
-        btn.setURI("fb://page/");
-        btn.setAmount("");
-
-        btn = bitbtn.create(document.getElementById("other-button-area"),
-            {
-                label: "This button will always Fail",
-                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
-                amount: 0.0000001,
-                currency: "USD",
-                onError: function (error) { console.error(error); },
-            });
-
-        btn.setURI("nosuchapplicationuri:");
-        btn.setAmount("");
-
-    </script>
 
     <script>
         (function(){
             var defaultLog = console.log;
             var defaultErr = console.error;
+            var defaultWarn = console.warn;
 
             var consoleArea = document.getElementById("console-area");
 
@@ -137,6 +106,10 @@
                 defaultErr.apply(this, arguments);
                 consoleArea.appendLine(arguments, "error");
             };
+            console.warn = function(){
+                defaultWarn.apply(this, arguments);
+                consoleArea.appendLine(arguments, "warn");
+            };
 
             window.onerror = function(errorMsg, url, lineNumber) {
                 var line = document.createElement("div");
@@ -148,19 +121,60 @@
 
             function addLoggingToBtn(btn){
                 var oldClick = btn.onclick;
-                btn.onclick = function() {
+                btn.onclick = function(e) {
                     console.log("[EVENT] BitBtn Clicked!");
-                    oldClick.apply(this, arguments);
+                    oldClick(e);
                 };
             }
+            
+            window.addEventListener('beforeunload', ()=>console.log('[Event] beforeunload'), false);
+            window.addEventListener('pagehide', ()=>console.log('[Event] pagehide'), false);
+            window.addEventListener('blur', ()=>console.log('[Event] blur'), false);
+
+
+            (function(){
+
+                btn = bitbtn.create(document.getElementById("button-area"),
+                    {
+                        label: "Pay!",
+                        address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                        amount: 1.247,
+                        currency: "USD",
+                        onError: function (error) { console.error(error); },
+                    });
+
+                btn = bitbtn.create(document.getElementById("other-button-area"),
+                    {
+                        label: "Facebook App",
+                        address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                        amount: 0.0000001,
+                        currency: "USD",
+                        onError: function (error) { console.error(error); },
+                    });
+        
+                btn.setURI("fb://page/");
+                btn.setAmount("");
+        
+                btn = bitbtn.create(document.getElementById("other-button-area"),
+                    {
+                        label: "This button will always Fail",
+                        address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                        amount: 0.0000001,
+                        currency: "USD",
+                        onError: function (error) { console.error(error); },
+                    });
+        
+                btn.setURI("nosuchapplicationuri:");
+                btn.setAmount("");
+            }());
 
             var bitBtns = document.getElementsByClassName("bitbtn");
             for(var b in bitBtns){
                 addLoggingToBtn(bitBtns[b]);
             }
         }());
-
-    </script>
+    
+        </script>
 </body>
 
 </html>

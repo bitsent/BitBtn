@@ -778,38 +778,97 @@ bitbtn = (function bitbtn() {
         }
     }
 
-    var isListeningForHideAndBlur = false;
+    openDeepUri = (function (){
+
+        var notSupported = function(appLink){
+            console.error("App Links are not supported on this configuration")
+        }
+
+        var direct = function(appLink){
+            window.location = appLink;
+        }
+        
+        var cta = direct; // BitBtn always acts in click events anyway.
+        
+        var iframe = function(appLink){
+            var iframeWithURI = document.createElement('iframe');
+            iframeWithURI.style.display = "none";
+            document.body.appendChild(iframeWithURI);
+            if (iframeWithURI !== null) {
+                iframeWithURI.src = appLink;
+            }
+        }
+        
+        var intentCta = function(appLink) {
+            var intentUri = "intent://m/#Intent;scheme=" + appLink + 
+                ";end"; // ";package=" + Settings.androidAppId +";end";
+            direct(intentUri)
+        }
+
+        var final = iframe;
+        if (os == "iOS")
+            final = cta;
+        else if (os == "Android")
+            final = intentCta
+
+        /////////////////////////////////////
+        ////////// SOME EDGE CASES //////////
+        /////////////////////////////////////
+        // for more information see:
+        // https://github.com/prabeengiri/DeepLinkingToNativeApp/
+        //
+        // default (desktop)       ==> iframe           ( done )
+        // default (mobile)        ==> CTA              ( done )
+        // isIOS     ?             ==> direct           ( done )
+        //      version < 9   ?    ==> direct           ( done )
+        //          twitter   ?    ==> direct-only      ( later... )
+        //      version >= 9  ?    ==> direct           ( done )
+        //          facebook  ?    ==> UL               ( later... )
+        // isAndroid ?             ==> intent_cta       ( done )
+        //      nativeBrowser ?    ==> not_supported    ( later... )
+        //      stockBrowser  ?    ==> not_supported    ( later... )
+
+        return final;
+    }());
+
+    var appLinkOpened = false;
+    var appLinkOpenedMaybe = false;
+    function onAppLinkOpened() { appLinkOpened = true; }
+    function onAppLinkOpenedMaybe() { appLinkOpenedMaybe = true; }
+
+    window.addEventListener('pagehide', onAppLinkOpened, false);
+    window.addEventListener('blur', onAppLinkOpened, false);
+    window.addEventListener('beforeunload', onAppLinkOpenedMaybe, false);
+
     function openBitcoinUri(btn, success, failure) {
         var appLink = btn.appLink;
-        if (!appLink) throw new TypeError("AppLink not present.");
+        if (!appLink)
+            throw new TypeError("AppLink not present.");
 
-        var appLinkOpened = false;
+        appLinkOpened = false;
+        appLinkOpenedMaybe = false;
 
-        if (!isListeningForHideAndBlur) {
-            window.addEventListener('pagehide', function () {
-                appLinkOpened = true;
-            }, false);
-            window.addEventListener('blur', function () {
-                appLinkOpened = true;
-            }, false);
+        openDeepUri(appLink);
 
-            isListeningForHideAndBlur = true;
-        }
-
-        var iframeWithURI = document.createElement('iframe');
-        iframeWithURI.style.display = "none";
-        document.body.appendChild(iframeWithURI);
-        if (iframeWithURI !== null) {
-            iframeWithURI.src = appLink;
-        }
-
-        setTimeout(function () {
-            if (!appLinkOpened)
-                failure();
-            else
+        var timeout = setTimeout(function () {
+            if (appLinkOpened) {
                 success();
+            }
+            else if (appLinkOpenedMaybe) {
+                showFalsePositiveWarning(success, failure);
+            }
+            else {
+                failure();
+            }
+
         }, 100);
     }
+
+    function showFalsePositiveWarning(success, failure) {
+        // TODO: implement method
+        console.warn("False Positive Warning!");
+    }
+
 
     function waitForPayment(btn) {
 
@@ -900,6 +959,7 @@ bitbtn = (function bitbtn() {
             container.appendChild(btn);
             setBtnParams(btn, params);
             btn.onclick = function (e) {
+                e.preventDefault();
                 onBtnClick(e.currentTarget);
             }
             return btn;
