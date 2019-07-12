@@ -2,7 +2,7 @@
   "name": "bitbtn",
   "version": "0.1.4",
   "description": "An UI Button for interacting with Bitcoin SV wallets (written in pure JS - no dependencies)",
-  "main": "src\bitbtn.js",
+  "main": "src/bitbtn.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
