@@ -6,10 +6,15 @@
 
 <body>
 
-    <div id="button-area">
-    </div>
+    Veniam et minim dolor laboris officia enim in enim pariatur. 
+    Ut excepteur fugiat mollit ad ea tempor ut aute Lorem magna 
+    adipisicing tempor officia.
+    <span id="button-area" onclick="alert('that is a problem')"> </span>
+    Veniam et minim dolor laboris officia enim in enim pariatur. 
+    Ut excepteur fugiat mollit ad ea tempor ut aute Lorem magna 
+    adipisicing tempor officia.
 
-    <script src="src/bitbtn.min.js"></script>
+    <script src="bitbtn.js"></script>
 
     <script>
         btnArea = document.getElementById("button-area");
@@ -19,10 +24,12 @@
                 label: "Pay!",
                 address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
                 amount: 1.247,
+                debug:true,
                 currency: "USD",
                 onError: function (error) { console.log(error); },
             });
 
+    
         // // NOTE: This syntax is not supported yet.
         // //            It will be, once Output URI BIP is fully implemented.
         //
