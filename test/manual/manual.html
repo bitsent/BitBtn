@@ -6,29 +6,35 @@
 
 <body>
     <style>
-        #console-area{
-            margin:auto;
+        #console-area {
+            margin: auto;
             margin-top: 2em;
-            width:80%;
+            width: 80%;
             height: 15em;
             overflow-y: scroll;
             overflow-x: inherit;
             background: rgb(66, 66, 66);
             color: white;
         }
+
         #console-area .error {
             color: rgb(255, 98, 98);
         }
+
         #console-area .warn {
             color: rgb(255, 164, 28);
         }
+
         #console-area a {
-            color:inherit;
+            color: inherit;
         }
     </style>
 
     <h1>Regular BitBtn</h1>
     <div id="button-area">
+    </div>
+    <h1>BIP21 BitBtn</h1>
+    <div id="button-area21">
     </div>
     <h1>Open Other Links</h1>
     <div id="other-button-area">
@@ -82,68 +88,103 @@
 
 
     <script>
-        (function(){
+        (function () {
             var defaultLog = console.log;
             var defaultErr = console.error;
             var defaultWarn = console.warn;
 
             var consoleArea = document.getElementById("console-area");
 
-            consoleArea.appendLine = function(args, lineClass) {
+            consoleArea.appendLine = function (args, lineClass) {
                 var line = document.createElement("div");
                 line.classList.add(lineClass);
-                for(var i = 0; i<args.length; i++) {
+                for (var i = 0; i < args.length; i++) {
                     line.append(args[i] + " ");
                 }
                 consoleArea.appendChild(line);
             };
 
-            console.log = function(){
+            console.log = function () {
                 defaultLog.apply(this, arguments);
                 consoleArea.appendLine(arguments, "log");
             };
-            console.error = function(){
+            console.error = function () {
                 defaultErr.apply(this, arguments);
                 consoleArea.appendLine(arguments, "error");
             };
-            console.warn = function(){
+            console.warn = function () {
                 defaultWarn.apply(this, arguments);
                 consoleArea.appendLine(arguments, "warn");
             };
 
-            window.onerror = function(errorMsg, url, lineNumber) {
+            window.onerror = function (errorMsg, url, lineNumber) {
                 var line = document.createElement("div");
                 line.classList.add("error");
-                line.innerHTML = "[ERROR] '" + errorMsg + "' in <a href='"+url+"'>"
-                    + url.substring(url.lastIndexOf("/"))+"</a> : line " + lineNumber
+                line.innerHTML = "[ERROR] '" + errorMsg + "' in <a href='" + url + "'>"
+                    + url.substring(url.lastIndexOf("/")) + "</a> : line " + lineNumber
                 consoleArea.appendChild(line);
             };
 
-            function addLoggingToBtn(btn){
+            function addLoggingToBtn(btn) {
                 var oldClick = btn.onclick;
-                btn.onclick = function(e) {
+                btn.onclick = function (e) {
                     console.log("[EVENT] BitBtn Clicked!");
                     oldClick(e);
                 };
             }
-            
-            window.addEventListener('beforeunload', ()=>console.log('[Event] beforeunload'), false);
-            window.addEventListener('pagehide', ()=>console.log('[Event] pagehide'), false);
-            window.addEventListener('blur', ()=>console.log('[Event] blur'), false);
+
+            window.addEventListener('beforeunload', () => console.log('[Event] beforeunload'), false);
+            window.addEventListener('pagehide', () => console.log('[Event] pagehide'), false);
+            window.addEventListener('blur', () => console.log('[Event] blur'), false);
 
 
-            (function(){
+            (function () {
 
-                btn = bitbtn.create(document.getElementById("button-area"),
+                btn_out = bitbtn.create(document.getElementById("button-area"),
                     {
-                        label: "Pay!",
+                        label: "Pay with OutputURI",
                         address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
                         amount: 1.247,
                         currency: "USD",
                         onError: function (error) { console.error(error); },
                     });
+                btn_out2 = bitbtn.create(document.getElementById("button-area"),
+                    {
+                        label: "Pay with Many Outputs",
+                        outputs: [
+                            {
+                                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                                amount: 1,
+                                currency: "USD",
+                            },
+                            {
+                                script: bitbtn.scripter.p2pkh("1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh"),
+                                amount: 0.247,
+                                currency: "USD"
+                            },
+                            {
+                                script: bitbtn.scripter.op_return(
+                                    bitbtn.scripter.str2hex([
+                                        "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
+                                        "BitBtn is Awesome!"
+                                    ])),
+                                amount: 0
+                            },
+                        ],
+                        onError: function (error) { console.error(error); },
+                    });
 
-                btn = bitbtn.create(document.getElementById("other-button-area"),
+                btn_bip21 = bitbtn.create(document.getElementById("button-area21"),
+                    {
+                        label: "Pay with BIP21",
+                        address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                        amount: 1.247,
+                        currency: "USD",
+                        bip21:true,
+                        onError: function (error) { console.error(error); },
+                    });
+
+                btn_fb = bitbtn.create(document.getElementById("other-button-area"),
                     {
                         label: "Facebook App",
                         address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
@@ -151,11 +192,11 @@
                         currency: "USD",
                         onError: function (error) { console.error(error); },
                     });
-        
-                btn.setURI("fb://page/");
-                btn.setAmount("");
-        
-                btn = bitbtn.create(document.getElementById("other-button-area"),
+
+                btn_fb.setURI("fb://page/");
+                btn_fb.setAmount("");
+
+                btn_no = bitbtn.create(document.getElementById("other-button-area"),
                     {
                         label: "This button will always Fail",
                         address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
@@ -163,18 +204,18 @@
                         currency: "USD",
                         onError: function (error) { console.error(error); },
                     });
-        
-                btn.setURI("nosuchapplicationuri:");
-                btn.setAmount("");
+
+                btn_no.setURI("nosuchapplicationuri:");
+                btn_no.setAmount("");
             }());
 
             var bitBtns = document.getElementsByClassName("bitbtn");
-            for(var b in bitBtns){
+            for (var b in bitBtns) {
                 addLoggingToBtn(bitBtns[b]);
             }
         }());
-    
-        </script>
+
+    </script>
 </body>
 
 </html>

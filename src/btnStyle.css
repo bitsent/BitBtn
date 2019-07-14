@@ -143,25 +143,30 @@
     margin: auto;
     border: 1px solid #888;
     width: 70%;
+    height: 70vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 .bitbtn-modal-container .modal-header {
     display: block;
-    background-color: rgba(0, 0, 0, 0.1)
+    background-color: #e6e6e6;
+    position: sticky;
+    top:0;
 }
 
 .bitbtn-modal-container .modal-header button {
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #d1d1d1;
     border: 0px none;
     margin: none;
 }
 
 .bitbtn-modal-container .modal-header:hover button:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #b9b9b9;
 }
 
 .bitbtn-modal-container .modal-header button.selected {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #b9b9b9;
 }
 
 .bitbtn-modal-container .modal-content .modal-body {

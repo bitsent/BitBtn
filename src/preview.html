@@ -6,70 +6,66 @@
 
 <body>
 
-    Veniam et minim dolor laboris officia enim in enim pariatur. 
-    Ut excepteur fugiat mollit ad ea tempor ut aute Lorem magna 
-    adipisicing tempor officia.
-    <span id="button-area" onclick="alert('that is a problem')"> </span>
-    Veniam et minim dolor laboris officia enim in enim pariatur. 
-    Ut excepteur fugiat mollit ad ea tempor ut aute Lorem magna 
-    adipisicing tempor officia.
+    <span id="button-area"> </span>
 
     <script src="bitbtn.js"></script>
 
     <script>
+        var lorem = "Veniam et minim dolor laboris officia enim in enim pariatur. Ut excepteur fugiat mollit ad ea tempor ut aute Lorem magna adipisicing tempor officia.";
+        lorem = lorem + lorem + lorem;
+
         btnArea = document.getElementById("button-area");
 
-        btn = bitbtn.create(btnArea,
-            {
-                label: "Pay!",
-                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
-                amount: 1.247,
-                debug:true,
-                currency: "USD",
-                onError: function (error) { console.log(error); },
-            });
+        btnArea.append(lorem);
+        btn_bip21 = bitbtn.create(btnArea,
+        {
+            label: "Pay with BIP21!",
+            address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+            amount: 1.247,
+            debug: true,
+            bip21: true,
+            currency: "USD",
+            onError: function (error) { console.log(error); },
+        });
+        btnArea.append(lorem);
+        btn_out = bitbtn.create(btnArea,
+        {
+            label: "Pay with OutputURI!",
+            address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+            amount: 1.247,
+            debug: true,
+            currency: "USD",
+            onError: function (error) { console.log(error); },
+        });
+        btnArea.append(lorem);
+        btn_out2 = bitbtn.create(btnArea,
+        {
+            label: "Pay with Many Outputs!",
+            outputs: [
+                {
+                    address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                    amount: 1,
+                    currency: "USD",
+                },
+                {
+                    script: bitbtn.scripter.p2pkh("1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh"),
+                    amount: 0.247,
+                    currency: "USD"
+                },
+                {
+                    script: bitbtn.scripter.op_return(
+                        bitbtn.scripter.str2hex([
+                            "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
+                            "BitBtn is Awesome!"
+                        ])),
+                    amount: 0
+                },
+            ],
+            debug: true,
+            onError: function (error) { console.log(error); },
+        });
+        btnArea.append(lorem);
 
-    
-        // // NOTE: This syntax is not supported yet.
-        // //            It will be, once Output URI BIP is fully implemented.
-        //
-        // btn = bitbtn.create(btnArea,
-        //     {
-        //         label: "Pay !!",
-        //         successMessage: "Done !!",
-        //         onPayment: function (payment) { alert("success") },
-        //         onError: function (error) { alert(error); },
-        //         outputs: [
-        //             {
-        //                 address: "16gsUKFNLSqVVg6ax5TXmvx1GWjffxMGV6",
-        //                 amount: "0.085",
-        //                 currency: "USD"
-        //             },
-        //             {
-        //                 address: "1KWzpdQAwd4kDEaLu5cWJ54yJ8WCgAGizQ",
-        //                 amount: 0.015,
-        //                 currency: "USD"
-        //             }
-        //         ]
-        //     });
-        // 
-        // // NOTE: This syntax is not supported yet.
-        // //            It will be, once Output URI BIP is fully implemented.
-        //
-        // btn = bitbtn.create(btnArea,
-        //     {
-        //         label: "Post To Memo",
-        //         successMessage: "Done",
-        //         onPayment: function (payment) { alert("success") },
-        //         onError: function (error) { alert(error); },
-        //         outputs: [
-        //             {
-        //                 value: 0.00,
-        //                 script: "OP_RETURN 621 4920617070726F7665207468697320424950"
-        //             }
-        //         ]
-        //     });
-        
 
     </script>
 

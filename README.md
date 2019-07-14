@@ -6,6 +6,13 @@ An UI Button for interacting with **Bitcoin SV** wallets (written in pure JS - n
 
 License: **OPEN ONLY-BSV-SPECIFIC LICENSE**
 
+The button has two modes of work:
+
+Output URI ([link](https://github.com/Siko91/URI-BIPs/blob/master/%5BDraft%5D%20bip-bitcoinsofia-output_uri.mediawiki))
+and BIP21 ([link](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki))
+
+Output URI is the default.
+
 # Importing
 
 Get a released version from NPM : [![NPM version](https://badge.fury.io/js/bitbtn.svg)](https://npmjs.org/package/bitbtn)
@@ -34,11 +41,61 @@ btn = bitbtn.create(
 
 ![BTN](https://raw.githubusercontent.com/bitsent/BitBtn/master/btn.PNG)
 
+# Advanced Usage
+
+This example creates a button that pays $1 to an address, pays $0.247 to a script (p2pkh to the same address) and creates an OP_RETURN message.
+
+```js
+btn = bitbtn.create(
+    document.getElementById("location-for-the-bitcoin-button"),
+    {
+        label: "Complex Pay!",
+        outputs: [
+            {
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 1,
+                currency: "USD",
+            },
+            {
+                script: bitbtn.scripter.p2pkh("1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh"),
+                amount: 0.247,
+                currency: "USD"
+            },
+            {
+                script: bitbtn.scripter.op_return(
+                    bitbtn.scripter.str2hex([
+                        "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
+                        "BitBtn is Awesome!"
+                    ])),
+                amount: 0
+            },
+        ],
+        onError: function (error) { console.log(error); },
+    });
+```
+
+# BIP21 Usage
+
+The button also supports BIP21 deep links for backwards compatibility. To use a BIP21 button, simply set the 'bip21' property to true.
+
+```js
+btn = bitbtn.create(
+    document.getElementById("location-for-the-bitcoin-button"),
+    {
+        label: "Pay!",
+        address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+        amount: 1.247,
+        currency: "USD",
+        bip21: true,
+        onError: function (error) { console.log(error); },
+    });
+```
+
 # Testing
 
-The current version of the button is **UNTESTED**.
+BitBtn needs more testing.
 There are no automated tests yet.
-Manual testing is not done either.
+Manual testing is the main type of testing.
 
 To test manually, please follow [This Link to the Manual Test Page](https://raw.githack.com/bitsent/BitBtn/master/test/manual/manual.html) and follow the instructions.
 
@@ -47,19 +104,20 @@ If you see an error, take a screenshot and include it in a GitHub Issue.
 
 # How it works
 
-- The button triggers a **BIP21 URI deep link**.
+- The button triggers a **URI deep link**.
 - It asks the OS of the user to open a program that knows how to open such URIs.
 - If the user has a compatible Bitcoin SV wallet, he can make the payment.
 - If the user has no Bitcoin wallet, he will be shown a modal window with alternatives.
-- The alternatives include a list of reccomended wallets to download (for the OS of the user).
-- If the user is on a desktop machine, a QR code is shown to scan with a mobile device.
+- The alternatives include a list of recommended wallets to download (for the OS of the user).
+- If the user is on a desktop machine, a QR code may be shown (to scan with a mobile device).
 
 # Known Issues
 
 - Not tested on all browsers.
 - Not tested on all devices.
+- QR codes are only shown for links shorter than 132 letters.
 - Recognising if the deep link succeeded or failed can be hard on iOS.
-    - Testing & workaround is needed.
+    - A workaround with a popping message is used.
 - While using BIP21, the button CAN NOT check if the payments were successful (due to race conditions).
     - Please perform such **checks in your own code** (by generating a separate bitcoin address for each user).
-    - This is a temporary problem, and will be resolved when the **Output URI BIP** gets fully implemented.
+    - This problem, can be resolved with the **Output URI BIP**. (It is not done yet.)
