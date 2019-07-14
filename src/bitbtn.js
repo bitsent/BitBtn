@@ -193,7 +193,13 @@ bitbtn = (function bitbtn() {
             'Open BSD': [],
             'Sun OS': [],
             'Linux': [],
-            'iOS': [],
+            'iOS': [
+                {
+                    name: "Simply Cash",
+                    img: "https://simply.cash/img/simply-icon-512x512.png",
+                    app: "https://apps.apple.com/us/app/simply-cash-bsv-wallet/id1398370340",
+                },
+            ],
             'Mac OS X': [],
             'Mac OS': [],
             'QNX': [],
