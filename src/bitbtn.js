@@ -526,11 +526,13 @@ bitbtn = (function bitbtn() {
         }
         btn.append(notWork);
 
-        btn.showNotWork = function () {
+        btn.showNotWork = function (seconds) {
+            seconds = seconds || 3
+            seconds = parseFloat(seconds);
             notWork.classList.add("show");
             setTimeout(function () {
                 notWork.classList.remove("show");
-            }, 3000);
+            }, seconds * 1000);
         }
 
         return btn;
@@ -902,7 +904,12 @@ bitbtn = (function bitbtn() {
                 btn.showNotWork();
             }
             else {
-                failure();
+                if (os == "iOS"){
+                    btn.showNotWork(5)
+                }
+                else {
+                    failure();
+                }
             }
 
         }, 100);
