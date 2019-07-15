@@ -413,7 +413,7 @@ bitbtn = (function bitbtn() {
 
             var osLabel = createEl("p", [], [], "Your OS is : " + os);
             modal.addTab("Wallets", 'wallets', [
-                createEl("p", [], [], altMessages[uriScheme, uriScheme]),
+                createEl("p", [], [], altMessages[uriScheme]),
                 osLabel,
                 createEl("p", [], [], "Here are some reccomended wallets:"),
                 createEl("ul", ["wallet-list"], getWalletListItems(uriScheme, os))
@@ -610,6 +610,12 @@ bitbtn = (function bitbtn() {
                 }
                 params.outputs = [_output];
             }
+            
+            if (params.bip21 === true) {
+                if (params.outputs.length > 1) {
+                    throw new Error("Cannot have multiple outputs when using BIP21");
+                }
+            }
 
             if (!Array.isArray(params.outputs)) {
                 throw new TypeError("BitBtn outputs must be an array of objects!");
@@ -679,7 +685,7 @@ bitbtn = (function bitbtn() {
                 throw new Error("The same BitBtn output cannot have an address and a script at the same time.");
             }
             if (!("address" in output) && !("script" in output)) {
-                throw new Error("The same BitBtn output must have either an address or a script.");
+                throw new Error("A BitBtn output must have either an address or a script.");
             }
 
             if ("address" in output) {
