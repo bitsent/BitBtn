@@ -1,6 +1,6 @@
 {
   "name": "bitbtn",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "An UI Button for interacting with Bitcoin SV wallets (written in pure JS - no dependencies)",
   "main": "src/bitbtn.js",
   "scripts": {
