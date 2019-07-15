@@ -203,6 +203,7 @@
     list-style: none;
     display: flex;
     flex-wrap: wrap;
+    z-index: 2147483647; /*max value*/
 }
 
 .bitbtn-modal-container .wallet-list .wallet-item {
