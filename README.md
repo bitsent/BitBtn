@@ -105,6 +105,21 @@ btn = bitbtn.create(
     });
 ```
 
+# Customization
+
+You can change how the button looks, by including a CSS file with the right ID.
+
+```html
+    <link rel="stylesheet" href="custom-bitbtn-style.css" id="bitbtn-css">
+```
+
+The BitBtn scripts adds a default style for the buttons if the element with this ID is not present. If it is, BitBtn will not touch the style of the button.
+This allows for some pretty cool customization.
+
+> When designing new stylesheets, please make sure that the button remains functional.
+Please make sure that the style look good on all browsers, operating systems and screen sizes.
+Keep in mind that devices with the same physical screen size can have vastly different resolutions.
+
 # Testing
 
 BitBtn needs more testing.
