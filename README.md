@@ -117,7 +117,7 @@ The BitBtn scripts adds a default style for the buttons if the element with this
 This allows for some pretty cool customization.
 
 > When designing new stylesheets, please make sure that the button remains functional.
-Please make sure that the style look good on all browsers, operating systems and screen sizes.
+Please make sure that the style looks good on all browsers, operating systems and screen sizes.
 Keep in mind that devices with the same physical screen size can have vastly different resolutions.
 
 # Testing
