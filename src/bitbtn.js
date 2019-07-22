@@ -480,6 +480,7 @@ bitbtn = (function bitbtn() {
         var spinner = document.createElement('span');
         spinner.classList.add("status-circle");
         spinner.role = "status";
+        spinner.append(" ")
 
         btn.cleanupCircle = function () {
             spinner.classList.remove("success");
