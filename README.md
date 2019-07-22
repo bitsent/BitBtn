@@ -41,6 +41,20 @@ btn = bitbtn.create(
 
 ![BTN](https://raw.githubusercontent.com/bitsent/BitBtn/master/btn.PNG)
 
+# Supported Currencies
+
+BitBtn uses CoinGecko for price discovery. It supports many FIAT currencies:
+
+"usd", "aed", "ars", "aud", "bdt", "bhd", "bmd",
+"brl", "cad", "chf", "clp", "cny", "czk", "dkk",
+"eur", "gbp", "hkd", "huf", "idr", "ils", "inr",
+"jpy", "krw", "kwd", "lkr", "mmk", "mxn", "myr",
+"nok", "nzd", "php", "pkr", "pln", "rub", "sar",
+"sek", "sgd", "thb", "try", "twd", "uah", "vef",
+"vnd", "zar", "xdr", "xag", "xau"
+
+And of course "BSV" is supported too.
+
 # Advanced Usage
 
 This example creates a button that pays $1 to an address, pays $0.247 to a script (p2pkh to the same address) and creates an OP_RETURN message.
