@@ -834,7 +834,7 @@ bitbtn = (function bitbtn() {
                 hexValues = [ hexValues ];
             if (!Array.isArray(hexValues))
                 throw new Error("op_return method expects an array of hexadecimal strings");
-            var resultScript = "6a"
+            var resultScript = "006a"
             for (var i = 0; i < hexValues.length; i++) {
                 resultScript = resultScript + hexValueInScript(hexValues[i]);
             }
