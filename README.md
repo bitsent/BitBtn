@@ -120,6 +120,8 @@ This allows for some pretty cool customization.
 Please make sure that the style looks good on all browsers, operating systems and screen sizes.
 Keep in mind that devices with the same physical screen size can have vastly different resolutions.
 
+See the customization in action at [The Style Preview Page](https://raw.githack.com/bitsent/BitBtn/master/styles/style_preview.html)
+
 # Testing
 
 BitBtn needs more testing.
