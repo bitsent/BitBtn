@@ -601,6 +601,17 @@ bitbtn = (function bitbtn() {
                 throw new TypeError("BitBtn 'bip21' must be a boolean.");
             }
 
+            if (!("walletLabel" in params)) {
+                params.walletLabel = "BitBtn Payment";
+            }
+            if (typeof params.walletLabel !== "string") {
+                throw new TypeError("BitBtn 'walletLabel' must be a string.");
+            }
+            
+            if ("walletMessage" in params && typeof params.walletMessage !== "string") {
+                throw new TypeError("BitBtn 'walletMessage' (optional) must be a string.");
+            }
+            
             if ("outputs" in params) {
                 for (var i in outputParamNames) {
                     if (outputParamNames[i] in params) {
@@ -862,17 +873,22 @@ bitbtn = (function bitbtn() {
         btn.setAmount(roundedAmount + " " + btn.params.currency.toUpperCase());
         btn.setLabel(btn.params.label);
 
+        var infoParams = "";
+        infoParams += "label=" + encodeURIComponent(btn.params.walletLabel);
+        if (btn.params.walletMessage !== undefined) {
+            infoParams += "&message=" + encodeURIComponent(btn.params.walletMessage);
+        }
+
         if (btn.params.bip21 === true) {
             var out = btn.params.outputs[0];
-            var label = encodeURIComponent("BitBtn Payment")
-            btn.setURI("bitcoin:" + out.address + "?sv=&amount=" + out.bsvAmount + "&label=" + label);
+            btn.setURI("bitcoin:" + out.address + "?sv=&amount=" + out.bsvAmount + "&" + infoParams);
         }
         else {
             var uri = "bitcoin-out:";
             var outs = btn.params.outputs.map(function (o) {
                 return { v: o.bsvAmount, s: o.script }
             });
-            btn.setURI(uri + encodeURIComponent(JSON.stringify(outs)));
+            btn.setURI(uri + encodeURIComponent(JSON.stringify(outs)) + "?" + infoParams);
         }
     }
 
