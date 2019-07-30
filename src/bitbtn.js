@@ -209,7 +209,13 @@ bitbtn = (function bitbtn() {
         },
         "bitcoin-out": {
             'Windows': [],
-            'Android': [ ],
+            'Android': [
+                {
+                    name: "Simply Cash",
+                    img: "https://simply.cash/img/simply-icon-512x512.png",
+                    app: "https://play.google.com/store/apps/details?id=cash.simply.wallet",
+                },
+            ],
             'Open BSD': [],
             'Sun OS': [],
             'Linux': [],
