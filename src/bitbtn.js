@@ -209,7 +209,13 @@ bitbtn = (function bitbtn() {
         },
         "bitcoin-out": {
             'Windows': [],
-            'Android': [ ],
+            'Android': [
+                {
+                    name: "Simply Cash",
+                    img: "https://simply.cash/img/simply-icon-512x512.png",
+                    app: "https://play.google.com/store/apps/details?id=cash.simply.wallet",
+                },
+            ],
             'Open BSD': [],
             'Sun OS': [],
             'Linux': [],
@@ -595,6 +601,17 @@ bitbtn = (function bitbtn() {
                 throw new TypeError("BitBtn 'bip21' must be a boolean.");
             }
 
+            if (!("walletLabel" in params)) {
+                params.walletLabel = "BitBtn Payment";
+            }
+            if (typeof params.walletLabel !== "string") {
+                throw new TypeError("BitBtn 'walletLabel' must be a string.");
+            }
+            
+            if ("walletMessage" in params && typeof params.walletMessage !== "string") {
+                throw new TypeError("BitBtn 'walletMessage' (optional) must be a string.");
+            }
+            
             if ("outputs" in params) {
                 for (var i in outputParamNames) {
                     if (outputParamNames[i] in params) {
@@ -831,17 +848,20 @@ bitbtn = (function bitbtn() {
             var result = "";
             for (var i=0; i<str.length; i++) {
                 var hex = str.charCodeAt(i).toString(16);
-                result += ("000"+hex).slice(-4);
+                result += ("0"+hex).slice(-2);
             }
             return result;
         }
 
-        function op_return(hexValues) {
+        function op_return(hexValues, use_op_false) {
+            if(use_op_false === undefined)
+                use_op_false = true
+
             if (typeof(hexValues) == "string")
                 hexValues = [ hexValues ];
             if (!Array.isArray(hexValues))
                 throw new Error("op_return method expects an array of hexadecimal strings");
-            var resultScript = "006a"
+            var resultScript = use_op_false? "006a" : "6a"
             for (var i = 0; i < hexValues.length; i++) {
                 resultScript = resultScript + hexValueInScript(hexValues[i]);
             }
@@ -863,17 +883,22 @@ bitbtn = (function bitbtn() {
         btn.setAmount(roundedAmount + " " + btn.params.currency.toUpperCase());
         btn.setLabel(btn.params.label);
 
+        var infoParams = "";
+        infoParams += "label=" + encodeURIComponent(btn.params.walletLabel);
+        if (btn.params.walletMessage !== undefined) {
+            infoParams += "&message=" + encodeURIComponent(btn.params.walletMessage);
+        }
+
         if (btn.params.bip21 === true) {
             var out = btn.params.outputs[0];
-            var label = encodeURIComponent("BitBtn Payment")
-            btn.setURI("bitcoin:" + out.address + "?sv=&amount=" + out.bsvAmount + "&label=" + label);
+            btn.setURI("bitcoin:" + out.address + "?sv=&amount=" + out.bsvAmount + "&" + infoParams);
         }
         else {
             var uri = "bitcoin-out:";
             var outs = btn.params.outputs.map(function (o) {
                 return { v: o.bsvAmount, s: o.script }
             });
-            btn.setURI(uri + encodeURIComponent(JSON.stringify(outs)));
+            btn.setURI(uri + encodeURIComponent(JSON.stringify(outs)) + "?" + infoParams);
         }
     }
 

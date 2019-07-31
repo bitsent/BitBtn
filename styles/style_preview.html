@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<head>
+    <title>BTN</title>
+</head>
+
+<body>
+<div id="wrapper" style="max-width: 60%; margin:auto;">
+    
+    <h1>Play Around With BitBtn Styling</h1>
+
+    <span style="padding: 20px; display: inline-block;">
+        <label for="style-selector"> Select your Style: </label>
+        <select name="styleSelector" id="style-selector">
+            <option value="btnStyle.css">Default</option>
+            <option value="btnStyle-black.css">Black</option>
+            <option value="btnStyle-red.css">Red</option>
+            <option value="btnStyle-white.css">White</option>
+        </select>
+    </span>
+
+    <span style="padding: 20px; display: inline-block;">
+        <label for="style-addon-selector"> Configure additional style: </label>
+        <select name="styleSelector" id="style-addon-selector">
+            <option value="addons/btn-addon-none.css">Default</option>
+            <option value="addons/btn-addon-dashed-border.css">Dashed Border</option>
+            <option value="addons/btn-addon-letter-spacing.css">Letter Spacing</option>
+            <option value="addons/btn-addon-square.css">Square</option>
+        </select>
+    </span>
+
+    <hr>
+
+    <p>
+        Here are all of BitBtn's States:
+        <br>(don't click them - it will change the state)
+    </p>
+
+    <hr>
+
+    <span id="button-area"> </span>
+
+    <hr>
+
+    <div>
+        <h3> Customization </h3>
+        <p>
+            You can change how the button looks, by including a CSS file with the right ID.
+        </p>
+        <xmp class="code">
+            <link rel="stylesheet" href="custom-bitbtn-style.css" id="bitbtn-css">
+        </xmp>
+        <p>
+            The BitBtn scripts adds a default style for the buttons if the element with this ID is not present. If it
+            is, BitBtn will not touch the style of the button. This allows for some pretty cool customization.
+        </p>
+        <p>
+            When designing new stylesheets, please make sure that the button remains functional. Please make sure that
+            the style looks good on all browsers, operating systems and screen sizes. Keep in mind that devices with the
+            same physical screen size can have vastly different resolutions.
+        </p>
+        <h3>Extending existing styles</h3>
+        <p>
+            If you are relatively happy with the existing style, but want to change a single feature, simply add your
+            style link anywhere in the <strong><u>body</u></strong> of the HTML document.
+            <br> (the default style is always added at the bottom of the head of the HTML)
+        </p>
+        <p>
+            If you are using a custom style that you want to tweak, just make sure you put the edit bellow the custom
+            style link.
+        </p>
+    </div>
+
+    <script src="../src/bitbtn.js"></script>
+    <style>
+        .code {
+            padding: 10px;
+            background-color: rgb(175, 175, 175);
+        }
+
+        div.btn-row {
+            display: flex;
+            flex-direction: row;
+            padding: 2px;
+        }
+
+        div.btn-row>* {
+            min-width: 15%;
+        }
+    </style>
+
+    <script>
+        function createBtn(text, containerElement) {
+            var div = document.createElement("div");
+            div.classList.add("btn-row");
+            var span = document.createElement("span");
+            span.append(text);
+            var btnWrap = document.createElement("div");
+
+            div.appendChild(span);
+            div.appendChild(btnWrap);
+            containerElement.appendChild(div);
+
+            return bitbtn.create(btnWrap, {
+                label: "Make Payment",
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 1,
+                debug: true,
+                currency: "USD",
+                onError: function (error) {
+                    console.log(error);
+                },
+            });
+        }
+
+        btnArea = document.getElementById("button-area");
+
+        createBtn("Neutral :", btnArea);
+        createBtn("Success :", btnArea).showSuccessInCircle();
+        createBtn("Failure :", btnArea).showErrorInCircle();
+        createBtn("Loading :", btnArea).showLoadingInCircle();
+        createBtn("No Amount :", btnArea).setAmount("");
+        createBtn("No Label :", btnArea).setLabel("");
+    </script>
+
+    <script>
+        var cssId = 'bitbtn-css';
+
+        var select = document.getElementById("style-selector");
+
+        select.onchange = function (e) {
+            deleteCSSLink(cssId);
+            setCSSLink(this.value, cssId, "head");
+        };
+
+        var select = document.getElementById("style-addon-selector");
+
+        select.onchange = function (e) {
+            deleteCSSLink(cssId + "-addon");
+            setCSSLink(this.value, cssId + "-addon", "body");
+        };
+
+
+        function deleteCSSLink(id) {
+            var link = document.getElementById(id);
+            if (link) link.remove();
+        }
+
+        function setCSSLink(filePath, id, containerTag) {
+            if (!document.getElementById(id)) {
+                var head = document.getElementsByTagName(containerTag)[0];
+                var link = document.createElement('link');
+                link.id = id;
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.media = 'all';
+                link.href = filePath;
+
+                head.appendChild(link);
+            }
+        }
+    </script>
+
+</div>
+</body>
+
+</html>
