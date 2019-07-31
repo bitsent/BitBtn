@@ -785,6 +785,13 @@ bitbtn = (function bitbtn() {
             }).join('')
         }
 
+        function hex2littleEndian(hexValue){
+            var hexParts = []
+            for (var i = 0; i < hexValue.length; i+=2)
+                hexParts.push(hexValue.substr(i, 2));
+            return hexParts.reverse().join("")
+        }
+
         function hexValueInScript(hexString) {
             if (hexString.length % 2 == 1)
                 hexString = "0" + hexString;
@@ -797,11 +804,11 @@ bitbtn = (function bitbtn() {
             if (len < 76)
                 return ("0" + len.toString(16)).slice(-2) + hexString;
             else if (len < 256)
-                return "4c" + ("0" + len.toString(16)).slice(-2) + hexString;
+                return "4c" + hex2littleEndian(("0" + len.toString(16)).slice(-2)) + hexString;
             else if (len < 65536)
-                return "4d" + ("000" + len.toString(16)).slice(-4) + hexString;
+                return "4d" + hex2littleEndian(("000" + len.toString(16)).slice(-4)) + hexString;
             else if (len < 4294967296)
-                return "4e" + ("0000000" + len.toString(16)).slice(-8) + hexString;
+                return "4e" + hex2littleEndian(("0000000" + len.toString(16)).slice(-8)) + hexString;
         }
 
         function p2pkh(address) {
