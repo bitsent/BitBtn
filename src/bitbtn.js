@@ -809,6 +809,9 @@ bitbtn = (function bitbtn() {
             return hexParts.reverse().join("")
         }
 
+        const _2bytesLimit = Math.pow(16, 4);
+        const _4bytesLimit = Math.pow(16, 8);
+
         function hexValueInScript(hexString) {
             if (hexString.length % 2 == 1)
                 hexString = "0" + hexString;
@@ -816,15 +819,15 @@ bitbtn = (function bitbtn() {
             var len = (hexString.length / 2);
 
             if (hexString === "00") // OP_FALSE
-                return hexString;
+                return "00";
 
             if (len < 76)
                 return ("0" + len.toString(16)).slice(-2) + hexString;
-            else if (len < 256)
-                return "4c" + hex2littleEndian(("0" + len.toString(16)).slice(-2)) + hexString;
-            else if (len < 65536)
+            else if (76 <= len && len < 256)
+                return "4c" + ("0" + len.toString(16)).slice(-2) + hexString;
+            else if (256 <= len && len < _2bytesLimit)
                 return "4d" + hex2littleEndian(("000" + len.toString(16)).slice(-4)) + hexString;
-            else if (len < 4294967296)
+            else if (_2bytesLimit <= len && len < _4bytesLimit)
                 return "4e" + hex2littleEndian(("0000000" + len.toString(16)).slice(-8)) + hexString;
         }
 
