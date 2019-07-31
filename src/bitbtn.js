@@ -841,7 +841,7 @@ bitbtn = (function bitbtn() {
             var result = "";
             for (var i=0; i<str.length; i++) {
                 var hex = str.charCodeAt(i).toString(16);
-                result += ("000"+hex).slice(-4);
+                result += ("0"+hex).slice(-2);
             }
             return result;
         }
