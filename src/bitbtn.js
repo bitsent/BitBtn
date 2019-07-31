@@ -846,12 +846,15 @@ bitbtn = (function bitbtn() {
             return result;
         }
 
-        function op_return(hexValues) {
+        function op_return(hexValues, use_op_false) {
+            if(use_op_false === undefined)
+                use_op_false = true
+
             if (typeof(hexValues) == "string")
                 hexValues = [ hexValues ];
             if (!Array.isArray(hexValues))
                 throw new Error("op_return method expects an array of hexadecimal strings");
-            var resultScript = "006a"
+            var resultScript = use_op_false? "006a" : "6a"
             for (var i = 0; i < hexValues.length; i++) {
                 resultScript = resultScript + hexValueInScript(hexValues[i]);
             }
