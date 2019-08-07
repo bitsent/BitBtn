@@ -19,9 +19,6 @@
     color: #fff;
 }
 
-.bitbtn.bitbtn-phone { font-size: 2.2vmax; }
-.bitbtn.bitbtn-tablet { font-size: 1.5vmax; }
-
 .bitbtn span {
     margin: 0 0.15em;
 }

@@ -154,3 +154,7 @@ If you see an error, take a screenshot and include it in a GitHub Issue.
 - While using BIP21, the button CAN NOT check if the payments were successful (due to race conditions).
     - Please perform such **checks in your own code** (by generating a separate bitcoin address for each user).
     - This problem, can be resolved with the **Output URI BIP**. (It is not done yet.)
+
+# Notes
+
+- The button looks bad on mobile devices if the HTML document doesn't have a meta tag like: ``` <meta name="viewport" content="width=device-width, initial-scale=1"> ```
