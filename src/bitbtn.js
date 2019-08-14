@@ -42,6 +42,7 @@ bitbtn = (function bitbtn() {
             if (!document.getElementById(cssId)) {
                 var head = document.getElementsByTagName('head')[0];
                 var style = document.createElement('style');
+                style.id = cssId;
                 style.innerHTML = bitBtnStyle;
                 head.appendChild(style);
             }
