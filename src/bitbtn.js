@@ -20,7 +20,7 @@ bitbtn = (function bitbtn() {
 
     var addCSS = (function () {
 
-        var bitBtnStyle = ".bitbtn{position:relative;padding:.5em .75em;font-size:1em;line-height:1.5;display:inline-block;cursor:pointer;font-size:15px;font-weight:400;text-align:center;vertical-align:middle;white-space:nowrap;border-radius:1.5em;border:.3em ridge;border-color:#0054ad;background-color:#007bff;color:#fff}.bitbtn.bitbtn-phone{font-size:2.2vmax}.bitbtn.bitbtn-tablet{font-size:1.5vmax}.bitbtn span{margin:0 .15em}@-webkit-keyframes bitbtn-spinner{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes bitbtn-spinner{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes bitbtn-border-success{to{border-color:#32cd32}}@keyframes bitbtn-border-success{to{border-color:#32cd32}}@-webkit-keyframes bitbtn-border-error{to{border-color:pink}}@keyframes bitbtn-border-error{to{border-color:pink}}.bitbtn .status-circle{width:.8em;height:.8em;display:inline-block;vertical-align:text-bottom;border:.2em solid transparent;border-color:transparent;background-color:#fff;border-radius:50%;-webkit-animation:none;animation:none}.bitbtn .status-circle.loading{border:.2em solid currentColor;border-right-color:transparent;background-color:transparent;border-radius:50%;-webkit-animation:bitbtn-spinner .75s linear infinite;animation:bitbtn-spinner .75s linear infinite}.bitbtn .status-circle.success{border-color:transparent;background-color:#a3fc1e}.bitbtn .status-circle.error{border-color:transparent;background-color:#fb91a3}.bitbtn .bitbtn-amount{font-size:1em;display:inline-block;background:#ffffff50;border-radius:10%;padding:0 3px}.bitbtn .bitbtn-not-work{background:#ddd;text-align:center;color:#000;display:none;position:absolute;left:0;top:3em;padding:10px;width:100%}.bitbtn .bitbtn-not-work.show{display:block}.bitbtn .small-text,.bitbtn-modal-container .small-text{font-size:.6em}.bitbtn-modal-container{background-color:#000;background-color:rgba(0,0,0,.4);position:fixed;left:0;top:0;width:100%;height:100%;display:none;z-index:2147483647;padding-top:100px;overflow:auto}.bitbtn-modal-container .modal-content{background-color:#fefefe;margin:auto;border:1px solid #888;width:70%;height:70vh;overflow-y:scroll;overflow-x:hidden}.bitbtn-modal-container .modal-header{display:block;background-color:#e6e6e6;position:sticky;top:0}.bitbtn-modal-container .modal-header button{padding:10px;background-color:#d1d1d1;border:0 none;margin:none}.bitbtn-modal-container .modal-header:hover button:hover{background-color:#b9b9b9}.bitbtn-modal-container .modal-header button.selected{background-color:#b9b9b9}.bitbtn-modal-container .modal-content .modal-body{padding:20px}.bitbtn-modal-container .close{color:#aaa;float:right;font-size:28px;font-weight:700}.bitbtn-modal-container .close:focus,.bitbtn-modal-container .close:hover{color:#000;text-decoration:none;cursor:pointer}.bitbtn-modal-container .qr-code-img img{display:block;padding:20px;width:auto;max-width:50%;margin:auto;margin-top:1em;margin-bottom:1em;border:1px solid #000}.bitbtn-modal-container .wallet-list{list-style:none;display:flex;flex-wrap:wrap}.bitbtn-modal-container .wallet-list .wallet-item{display:inline-block;border:3px ridge #000;padding:1em 2em;margin:3px;text-align:center}.bitbtn-modal-container .wallet-list .wallet-item:hover{background:-moz-linear-gradient(-45deg,rgba(150,200,200,0) 0,rgba(150,200,200,1) 65%,rgba(150,200,200,0) 67%,rgba(150,200,200,0) 100%);background:-webkit-linear-gradient(-45deg,rgba(150,200,200,0) 0,rgba(150,200,200,1) 65%,rgba(150,200,200,0) 67%,rgba(150,200,200,0) 100%);background:linear-gradient(135deg,rgba(150,200,200,0) 0,rgba(150,200,200,1) 65%,rgba(150,200,200,0) 67%,rgba(150,200,200,0) 100%)}.bitbtn-modal-container .wallet-list .wallet-item img{height:3em}";
+        var bitBtnStyle = ".bitbtn{position:relative;padding:0.5em 0.75em;font-size:1em;line-height:1.5;display:inline-block;cursor:pointer;font-size:15px;font-weight:400;text-align:center;vertical-align:middle;white-space:nowrap;border-radius:1.5em;border:0.3em ridge;border-color:#0054ad;background-color:#007bff;color:#fff}.bitbtn.bitbtn-phone{font-size:2.2vmax}.bitbtn.bitbtn-tablet{font-size:1.5vmax}.bitbtn span{margin:0 0.15em}@-webkit-keyframes bitbtn-spinner{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes bitbtn-spinner{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes bitbtn-border-success{to{border-color:limegreen}}@keyframes bitbtn-border-success{to{border-color:limegreen}}@-webkit-keyframes bitbtn-border-error{to{border-color:pink}}@keyframes bitbtn-border-error{to{border-color:pink}}.bitbtn .status-circle{width:0.8em;height:0.8em;display:inline-block;vertical-align:text-bottom;border:0.2em solid transparent;border-color:transparent;background-color:white;border-radius:50%;-webkit-animation:none;animation:none}.bitbtn .status-circle.loading{border:0.2em solid currentColor;border-right-color:transparent;background-color:transparent;border-radius:50%;-webkit-animation:bitbtn-spinner 0.75s linear infinite;animation:bitbtn-spinner 0.75s linear infinite}.bitbtn .status-circle.success{border-color:transparent;background-color:rgb(163, 252, 30)}.bitbtn .status-circle.error{border-color:transparent;background-color:rgb(251, 145, 163)}.bitbtn .bitbtn-amount{font-size:1em;display:inline-block;background:#ffffff50;border-radius:10%;padding:0 3px}.bitbtn .bitbtn-not-work{background:#ddd;text-align:center;color:black;display:none;position:absolute;left:0;top:3em;padding:10px;width:100%}.bitbtn .bitbtn-not-work.show{display:block}.bitbtn .small-text,.bitbtn-modal-container .small-text{font-size:0.6em}.bitbtn-modal-container{background-color:rgb(0,0,0);background-color:rgba(0,0,0,0.4);position:fixed;left:0;top:0;width:100%;height:100%;display:none;z-index:2147483647;padding-top:100px;overflow:auto}.bitbtn-modal-container .modal-content{background-color:#fefefe;margin:auto;border:1px solid #888;width:70%;height:70vh;overflow-y:scroll;overflow-x:hidden}.bitbtn-modal-container .modal-header{display:block;background-color:#e6e6e6;position:sticky;top:0}.bitbtn-modal-container .modal-header button{padding:10px;background-color:#d1d1d1;border:0 none;margin:none}.bitbtn-modal-container .modal-header:hover button:hover{background-color:#b9b9b9}.bitbtn-modal-container .modal-header button.selected{background-color:#b9b9b9}.bitbtn-modal-container .modal-content .modal-body{padding:20px}.bitbtn-modal-container .close{color:#aaaaaa;float:right;font-size:28px;font-weight:bold}.bitbtn-modal-container .close:focus,.bitbtn-modal-container .close:hover{color:#000;text-decoration:none;cursor:pointer}.bitbtn-modal-container .qr-code-img img{display:block;padding:20px;width:auto;max-width:50%;margin:1em auto;border:1px solid black}.bitbtn-modal-container .wallet-list{list-style:none;display:flex;flex-wrap:wrap}.bitbtn-modal-container .wallet-list .wallet-item{display:inline-block;border:3px ridge black;padding:1em 2em;margin:3px;text-align:center}.bitbtn-modal-container .wallet-list .wallet-item:hover{background:-moz-linear-gradient(-45deg, rgba(150,200,200,0) 0%, rgba(150,200,200,1) 65%, rgba(150,200,200,0) 67%, rgba(150,200,200,0) 100%);background:-webkit-linear-gradient(-45deg, rgba(150,200,200,0) 0%,rgba(150,200,200,1) 65%,rgba(150,200,200,0) 67%,rgba(150,200,200,0) 100%);background:linear-gradient(135deg, rgba(150,200,200,0) 0%,rgba(150,200,200,1) 65%,rgba(150,200,200,0) 67%,rgba(150,200,200,0) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096c8c8', endColorstr='#0096c8c8',GradientType=1 )}.bitbtn-modal-container .wallet-list .wallet-item img{height:3em}";
 
         var cssId = 'bitbtn-css';
 
@@ -471,15 +471,19 @@ bitbtn = (function bitbtn() {
         btn.type = "button";
         btn.classList.add("bitbtn")
         if (os == "iOS" || os == "Android") {
-            var smallSide = (screen.width < screen.height)
-                ? screen.width
-                : screen.height;
+            var portrait = (screen.width < screen.height)
+            var smallSide = portrait ? screen.width : screen.height;
+            var bigSide = portrait ? screen.height : screen.width;
 
             if (0 < smallSide && smallSide < 500) {
                 btn.classList.add("bitbtn-phone");
+                // btn.style.fontSize = 0.5 + "cm";
+                // btn.style.fontSize = 3.3 + "vmin";
             }
             if (499 < smallSide && smallSide < 1000) {
                 btn.classList.add("bitbtn-tablet");
+                // btn.style.fontSize = 0.3 + "cm";
+                // btn.style.fontSize = 1.8 + "vmin";
             }
 
         }
@@ -803,6 +807,16 @@ bitbtn = (function bitbtn() {
             }).join('')
         }
 
+        function hex2littleEndian(hexValue){
+            var hexParts = []
+            for (var i = 0; i < hexValue.length; i+=2)
+                hexParts.push(hexValue.substr(i, 2));
+            return hexParts.reverse().join("")
+        }
+
+        const _2bytesLimit = Math.pow(16, 4);
+        const _4bytesLimit = Math.pow(16, 8);
+
         function hexValueInScript(hexString) {
             if (hexString.length % 2 == 1)
                 hexString = "0" + hexString;
@@ -810,16 +824,16 @@ bitbtn = (function bitbtn() {
             var len = (hexString.length / 2);
 
             if (hexString === "00") // OP_FALSE
-                return hexString;
+                return "00";
 
             if (len < 76)
                 return ("0" + len.toString(16)).slice(-2) + hexString;
-            else if (len < 256)
+            else if (76 <= len && len < 256)
                 return "4c" + ("0" + len.toString(16)).slice(-2) + hexString;
-            else if (len < 65536)
-                return "4d" + ("000" + len.toString(16)).slice(-4) + hexString;
-            else if (len < 4294967296)
-                return "4e" + ("0000000" + len.toString(16)).slice(-8) + hexString;
+            else if (256 <= len && len < _2bytesLimit)
+                return "4d" + hex2littleEndian(("000" + len.toString(16)).slice(-4)) + hexString;
+            else if (_2bytesLimit <= len && len < _4bytesLimit)
+                return "4e" + hex2littleEndian(("0000000" + len.toString(16)).slice(-8)) + hexString;
         }
 
         function p2pkh(address) {
