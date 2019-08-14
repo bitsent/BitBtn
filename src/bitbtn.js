@@ -814,8 +814,8 @@ bitbtn = (function bitbtn() {
             return hexParts.reverse().join("")
         }
 
-        const _2bytesLimit = Math.pow(16, 4);
-        const _4bytesLimit = Math.pow(16, 8);
+        var _2bytesLimit = Math.pow(16, 4);
+        var _4bytesLimit = Math.pow(16, 8);
 
         function hexValueInScript(hexString) {
             if (hexString.length % 2 == 1)
