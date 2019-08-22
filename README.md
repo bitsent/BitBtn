@@ -25,6 +25,12 @@ Everything is contained in 1 file (smaller than 50KB)
     <script src="bitbtn.min.js"></script>
 ```
 
+Alternatively you can import from **jsDelivr**
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
+```
+
 # Usage
 
 ```js
