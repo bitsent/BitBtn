@@ -8,7 +8,7 @@ License: **OPEN ONLY-BSV-SPECIFIC LICENSE**
 
 The button has two modes of work:
 
-Output URI ([link](https://github.com/Siko91/URI-BIPs/blob/master/%5BDraft%5D%20bip-bitcoinsofia-output_uri.mediawiki))
+Output URI ([link](https://github.com/Siko91/URI-BIPs/blob/master/%5BAccepted%5D%20bip-bitcoinsofia-output_uri.mediawiki))
 and BIP21 ([link](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki))
 
 Output URI is the default.
