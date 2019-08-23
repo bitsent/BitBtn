@@ -13,6 +13,12 @@ and BIP21 ([link](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki
 
 Output URI is the default.
 
+# Demonstration
+
+In this short video the full text of "Tao Te Ching" is uploaded on the blockchain without effort.
+
+https://www.youtube.com/watch?v=-qlGAjbrATY
+
 # Importing
 
 Get a released version from NPM : [![NPM version](https://badge.fury.io/js/bitbtn.svg)](https://npmjs.org/package/bitbtn)
@@ -22,7 +28,7 @@ Just import the minified version of the code in your website.
 Everything is contained in 1 file (smaller than 50KB)
 
 ```html
-    <script src="bitbtn.min.js"></script>
+<script src="bitbtn.min.js"></script>
 ```
 
 Alternatively you can import from **jsDelivr**
