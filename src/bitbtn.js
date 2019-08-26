@@ -14,6 +14,8 @@
 */
 bitbtn = (function bitbtn() {
 
+    var SATOSHI_PER_BITCOIN = 100000000;
+
     function getTimestamp() {
         return (new Date().valueOf() / 1000 | 0);
     }
@@ -208,15 +210,9 @@ bitbtn = (function bitbtn() {
             'BeOS': [],
             'OS/2': [],
         },
-        "bitcoin-out": {
+        "bitcoin-req": {
             'Windows': [],
-            'Android': [
-                {
-                    name: "Simply Cash",
-                    img: "https://simply.cash/img/simply-icon-512x512.png",
-                    app: "https://play.google.com/store/apps/details?id=cash.simply.wallet",
-                },
-            ],
+            'Android': [],
             'Open BSD': [],
             'Sun OS': [],
             'Linux': [],
@@ -351,11 +347,11 @@ bitbtn = (function bitbtn() {
 
         var altMessages = {
             "bitcoin": "Looks like you don't have a wallet that supports 'BIP21' deep linking.",
-            "bitcoin-out": "Looks like you don't have a wallet that support Bitcoin Output URI deep linking."
+            "bitcoin-req": "Looks like you don't have a wallet that support Bitcoin Request URI deep linking."
         };
         var altMessages_QR = {
             "bitcoin": "You appear to be on a desktop computer. Try scanning this QR code with a Bitcoin SV wallet on your smartphone.",
-            "bitcoin-out": "You appear to be on a desktop computer. Try scanning this QR code with a Bitcoin SV wallet on your smartphone."
+            "bitcoin-req": "You appear to be on a desktop computer. Try scanning this QR code with a Bitcoin SV wallet on your smartphone."
         };
 
         function getWalletListItems(uriScheme, os) {
@@ -388,8 +384,8 @@ bitbtn = (function bitbtn() {
 
             var uriScheme = uri.substr(0, uri.indexOf(':'));
             if (!(uriScheme in supportedWalletsByOS)) {
-                console.log("Unknown URI scheme: (" + uri + "). Showing alternatives for Output URI instead.");
-                uriScheme = "bitcoin-out";
+                console.log("Unknown URI scheme: (" + uri + "). Showing alternatives for Request URI instead.");
+                uriScheme = "bitcoin-req";
             }
 
             if (showQR) {
@@ -578,6 +574,61 @@ bitbtn = (function bitbtn() {
                 throw new TypeError("BitBtn Label must be a string!");
             }
 
+            if (!("network" in params)) {
+                params.network = "bitcoin";
+            }
+            if (typeof params.network !== "string") {
+                throw new TypeError("BitBtn network must be a string!");
+            }
+
+            if (!("paymentUrl" in params)) {
+                params.paymentUrl = "https://api.bitsent.net/payments/pay";
+            }
+            if (typeof params.paymentUrl !== "string") {
+                throw new TypeError("BitBtn paymentUrl must be a string!");
+            }
+            if (params.paymentUrl.length > 4000) {
+                throw new RangeError("BitBtn 'paymentUrl' cannot be longer than 4000 characters");
+            }
+
+            if (!("creationTimestamp" in params)) {
+                params.creationTimestamp = Math.floor(+new Date()/1000);
+            }
+            if (typeof params.creationTimestamp !== "number") {
+                throw new TypeError("BitBtn creationTimestamp must be a number!");
+            }
+
+            if (!("expirationTimestamp" in params)) {
+                var _7days = 7*24*60*60;
+                params.expirationTimestamp = Math.floor(+new Date()/1000) + _7days;
+            }
+            if (typeof params.expirationTimestamp !== "number") {
+                throw new TypeError("BitBtn expirationTimestamp must be a number!");
+            }
+
+            if (!("walletMemo" in params)) {
+                params.walletMemo = "BitBtn Payment";
+            }
+            if (typeof params.walletMemo !== "string") {
+                throw new TypeError("BitBtn 'walletMemo' must be a string.");
+            }
+            if (params.walletMemo.length > 50) {
+                throw new RangeError("BitBtn 'walletMemo' cannot be longer than 50 characters");
+            }
+            
+            if ("merchantData" in params) {
+                if (typeof params.merchantData === "object") {
+                    params.merchantData = JSON.stringify(params.merchantData);
+                }
+                else {
+                    params.merchantData = params.merchantData.toString();
+                }
+
+                if (params.merchantData.length > 10000) {
+                    throw new RangeError("BitBtn 'merchantData' cannot be longer than 10000 characters");
+                }
+            }
+
             if (!("successMessage" in params)) {
                 params.successMessage = "Done!";
             }
@@ -604,17 +655,6 @@ bitbtn = (function bitbtn() {
             }
             if (typeof params.bip21 !== "boolean") {
                 throw new TypeError("BitBtn 'bip21' must be a boolean.");
-            }
-
-            if (!("walletLabel" in params)) {
-                params.walletLabel = "BitBtn Payment";
-            }
-            if (typeof params.walletLabel !== "string") {
-                throw new TypeError("BitBtn 'walletLabel' must be a string.");
-            }
-            
-            if ("walletMessage" in params && typeof params.walletMessage !== "string") {
-                throw new TypeError("BitBtn 'walletMessage' (optional) must be a string.");
             }
             
             if ("outputs" in params) {
@@ -691,11 +731,11 @@ bitbtn = (function bitbtn() {
                 throw new TypeError("BitBtn currency must be a string!");
             }
 
-            if(output.currency !== "bsv") var price = getPrice(output.currency)
-            else var price = 1;
+            var price = 1;
+            if (output.currency === "satoshi") price = SATOSHI_PER_BITCOIN;
+            else if (output.currency !== "bsv") price = getPrice(output.currency)
 
-            output.bsvAmount = output.amount / price;
-            output.bsvAmount = Math.round(output.bsvAmount * 100000000) / 100000000
+            output.sats = Math.round(output.amount / price * SATOSHI_PER_BITCOIN);
 
             if (!("address" in output)) {
                 if ("paymail" in output) {
@@ -891,22 +931,33 @@ bitbtn = (function bitbtn() {
         btn.setAmount(roundedAmount + " " + btn.params.currency.toUpperCase());
         btn.setLabel(btn.params.label);
 
-        var infoParams = "";
-        infoParams += "label=" + encodeURIComponent(btn.params.walletLabel);
-        if (btn.params.walletMessage !== undefined) {
-            infoParams += "&message=" + encodeURIComponent(btn.params.walletMessage);
-        }
-
         if (btn.params.bip21 === true) {
             var out = btn.params.outputs[0];
-            btn.setURI("bitcoin:" + out.address + "?sv=&amount=" + out.bsvAmount + "&" + infoParams);
+            btn.setURI(
+                "bitcoin:" 
+                + out.address 
+                + "?sv=&amount=" 
+                + out.sats / SATOSHI_PER_BITCOIN
+                + "&label=" 
+                + encodeURIComponent(btn.params.walletMemo)
+            );
         }
         else {
-            var uri = "bitcoin-out:";
+            var infoParams = [
+                "paymentUrl=" + encodeURIComponent(btn.params.paymentUrl),
+                "network=" + encodeURIComponent(btn.params.network),
+                "creationTimestamp=" + encodeURIComponent(btn.params.creationTimestamp),
+                "expirationTimestamp=" + encodeURIComponent(btn.params.expirationTimestamp),
+                "memo=" + encodeURIComponent( btn.params.walletMemo)
+            ];
+
+            if (btn.params.merchantData !== undefined)
+                infoParams.push("merchantData=" + encodeURIComponent(btn.params.merchantData));
+
             var outs = btn.params.outputs.map(function (o) {
-                return { v: o.bsvAmount, s: o.script }
+                return { amount: o.sats, script: o.script }
             });
-            btn.setURI(uri + encodeURIComponent(JSON.stringify(outs)) + "?" + infoParams);
+            btn.setURI("bitcoin-req:" + encodeURIComponent(JSON.stringify(outs)) + "?" + infoParams.join("&"));
         }
     }
 
