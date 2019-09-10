@@ -16,6 +16,7 @@ bitbtn = (function bitbtn() {
 
     var SATOSHI_PER_BITCOIN = 100000000;
     var BITSENT_URL = "https://bitsent.net/";
+    var BITSENT_RECOMMENDED_WALLETS_URL = "https://bitsent.net/wallets.html";
 
     function getTimestamp() {
         return (new Date().valueOf() / 1000 | 0);
@@ -176,59 +177,6 @@ bitbtn = (function bitbtn() {
         return os;
     })();
 
-    var supportedWalletsByOS = {
-        "bip21": {
-            'Windows': [
-                /**
-                 * {
-                 *      name: "Example Wallet",
-                 *      img: "https://example-wallet.com/logo.png/",
-                 *      app: "https://example-wallet.com/download/",
-                 *  },
-                 */
-            ],
-            'Android': [
-                // // Due to a change in the URI scheme, Simply Cash is no longer a supporting wallet
-                // {
-                //     name: "Simply Cash",
-                //     img: "https://simply.cash/img/simply-icon-512x512.png",
-                //     app: "https://play.google.com/store/apps/details?id=cash.simply.wallet",
-                // },
-            ],
-            'Open BSD': [],
-            'Sun OS': [],
-            'Linux': [],
-            'iOS': [
-                // // Due to a change in the URI scheme, Simply Cash is no longer a supporting wallet
-                // {
-                //     name: "Simply Cash",
-                //     img: "https://simply.cash/img/simply-icon-512x512.png",
-                //     app: "https://apps.apple.com/us/app/simply-cash-bsv-wallet/id1398370340",
-                // },
-            ],
-            'Mac OS X': [],
-            'Mac OS': [],
-            'QNX': [],
-            'UNIX': [],
-            'BeOS': [],
-            'OS/2': [],
-        },
-        "bip275": {
-            'Windows': [],
-            'Android': [],
-            'Open BSD': [],
-            'Sun OS': [],
-            'Linux': [],
-            'iOS': [ ],
-            'Mac OS X': [],
-            'Mac OS': [],
-            'QNX': [],
-            'UNIX': [],
-            'BeOS': [],
-            'OS/2': [],
-        },
-    };
-
     var modalWindow = (function () {
         function createEl(tagName, classList, children, text) {
             var el = document.createElement(tagName);
@@ -355,40 +303,15 @@ bitbtn = (function bitbtn() {
 
         var altMessage_bitsent = "You could add BitSent.NET as a handler for all 'bitcoin:' links. Just click the button bellow.";
 
-        function getWalletListItems(uriType, os) {
-            try {
-                var supportedWalletItems = supportedWalletsByOS[uriType][os].map(
-                    function (w) {
-                        var img = createEl("img", ["wallet-item-img"], []);
-                        img.src = w.img;
-                        var name = createEl("h4", ["wallet-item-name"], []);
-                        name.append(w.name);
-                        var item = createEl("li", ["wallet-item"], [img, name]);
-                        item.onclick = function (e) {
-                            var win = window.open(w.app, "_blank");
-                            win.focus();
-                        };
-                        return item;
-                    });
-            } catch (error) { supportedWalletItems = [] }
-
-            if (supportedWalletItems.length === 0) {
-                supportedWalletItems.push(createEl("li", [], [], 
-                    "No supported wallets found for " + os))
-            }
-            
-            return supportedWalletItems;
-        }
-
         function showAlternatives(uri, isMobile, uriType) {
             var modal = initModal();
         
             ////// OFFER BITSENT HANDLER //////
             if (!isMobile) {
-                var linkElement = createEl("a", ["bitcoin-uri"], [], "Payment Request Link");
-                linkElement.rel="noopener noreferrer";
-                linkElement.target="_blank";
-                linkElement.href = uri;
+                var butcoinRequestLink = createEl("a", ["bitcoin-uri"], [], "Payment Request Link");
+                butcoinRequestLink.rel="noopener noreferrer";
+                butcoinRequestLink.target="_blank";
+                butcoinRequestLink.href = uri;
 
                 var iframeWrapper = createEl("div", ["bitsent-iframe"], []);
                 iframeWrapper.id = "bitsentIFrameWrapper";
@@ -405,17 +328,21 @@ bitbtn = (function bitbtn() {
                     addBitSentHandlerBtn,
                     iframeWrapper,
                     createEl("p",[],[], "Once you are done, simply click on this link to try again:"),
-                    linkElement
+                    butcoinRequestLink
                 ]);
             }
 
             ////// OFFER WALLET APPS //////
 
+            var walletListLink = createEl("a", ["wallet-list-link"], [], "BitSent's Reccomended Wallets");
+            walletListLink.href = BITSENT_RECOMMENDED_WALLETS_URL + "?os=" + encodeURIComponent(os) + "&uritype=" + encodeURIComponent(uriType);
+            walletListLink.rel="noopener noreferrer";
+            walletListLink.target="_blank";
+
             modal.addTab("Wallets", 'wallets', [
                 createEl("p", [], [], altMessages[uriType]),
-                createEl("p", [], [], "Your OS is : " + os),
-                createEl("p", [], [], "Here are some reccomended wallets:"),
-                createEl("ul", ["wallet-list"], getWalletListItems(uriType, os))
+                createEl("p", [], [], "Check the list of wallets reccomended by BitSent.NET:"),
+                walletListLink
             ]);
 
             modal.clickFirstTab();
