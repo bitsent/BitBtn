@@ -15,6 +15,7 @@
 bitbtn = (function bitbtn() {
 
     var SATOSHI_PER_BITCOIN = 100000000;
+    var BITSENT_URL = "https://bitsent.net/";
 
     function getTimestamp() {
         return (new Date().valueOf() / 1000 | 0);
@@ -176,7 +177,7 @@ bitbtn = (function bitbtn() {
     })();
 
     var supportedWalletsByOS = {
-        "bitcoin": {
+        "bip21": {
             'Windows': [
                 /**
                  * {
@@ -187,21 +188,23 @@ bitbtn = (function bitbtn() {
                  */
             ],
             'Android': [
-                {
-                    name: "Simply Cash",
-                    img: "https://simply.cash/img/simply-icon-512x512.png",
-                    app: "https://play.google.com/store/apps/details?id=cash.simply.wallet",
-                },
+                // // Due to a change in the URI scheme, Simply Cash is no longer a supporting wallet
+                // {
+                //     name: "Simply Cash",
+                //     img: "https://simply.cash/img/simply-icon-512x512.png",
+                //     app: "https://play.google.com/store/apps/details?id=cash.simply.wallet",
+                // },
             ],
             'Open BSD': [],
             'Sun OS': [],
             'Linux': [],
             'iOS': [
-                {
-                    name: "Simply Cash",
-                    img: "https://simply.cash/img/simply-icon-512x512.png",
-                    app: "https://apps.apple.com/us/app/simply-cash-bsv-wallet/id1398370340",
-                },
+                // // Due to a change in the URI scheme, Simply Cash is no longer a supporting wallet
+                // {
+                //     name: "Simply Cash",
+                //     img: "https://simply.cash/img/simply-icon-512x512.png",
+                //     app: "https://apps.apple.com/us/app/simply-cash-bsv-wallet/id1398370340",
+                // },
             ],
             'Mac OS X': [],
             'Mac OS': [],
@@ -210,7 +213,7 @@ bitbtn = (function bitbtn() {
             'BeOS': [],
             'OS/2': [],
         },
-        "bitcoin-req": {
+        "bip275": {
             'Windows': [],
             'Android': [],
             'Open BSD': [],
@@ -346,17 +349,20 @@ bitbtn = (function bitbtn() {
         })();
 
         var altMessages = {
-            "bitcoin": "Looks like you don't have a wallet that supports 'BIP21' deep linking.",
-            "bitcoin-req": "Looks like you don't have a wallet that support Bitcoin Request URI deep linking."
-        };
-        var altMessages_QR = {
-            "bitcoin": "You appear to be on a desktop computer. Try scanning this QR code with a Bitcoin SV wallet on your smartphone.",
-            "bitcoin-req": "You appear to be on a desktop computer. Try scanning this QR code with a Bitcoin SV wallet on your smartphone."
+            "bip21": "Looks like you don't have a wallet that supports 'BIP21' deep linking.",
+            "bip275": "Looks like you don't have a wallet that support Bitcoin Request URI deep linking."
         };
 
-        function getWalletListItems(uriScheme, os) {
+        var altMessage_bitsent = "You could add BitSent.NET as a handler for all 'bitcoin:' links. Just click the button bellow.";
+
+        var altMessages_QR = {
+            "bip21": "You appear to be on a desktop computer. Try scanning this QR code with a Bitcoin SV wallet on your smartphone.",
+            "bip275": "You appear to be on a desktop computer. Try scanning this QR code with a Bitcoin SV wallet on your smartphone."
+        };
+
+        function getWalletListItems(uriType, os) {
             try {
-                var supportedWalletItems = supportedWalletsByOS[uriScheme][os].map(
+                var supportedWalletItems = supportedWalletsByOS[uriType][os].map(
                     function (w) {
                         var img = createEl("img", ["wallet-item-img"], []);
                         img.src = w.img;
@@ -379,13 +385,41 @@ bitbtn = (function bitbtn() {
             return supportedWalletItems;
         }
 
-        function showAlternatives(uri, showQR) {
+        function showAlternatives(uri, isMobile, uriType) {
             var modal = initModal();
+        
+            ////// OFFER BITSENT HANDLER //////
+            if (!isMobile) {
+                var linkElement = createEl("a", ["bitcoin-uri"], [], "Payment Request Link");
+                linkElement.rel="noopener noreferrer";
+                linkElement.target="_blank";
+                linkElement.href = uri;
 
-            var uriScheme = uri.substr(0, uri.indexOf(':'));
-            if (!(uriScheme in supportedWalletsByOS)) {
-                console.log("Unknown URI scheme: (" + uri + "). Showing alternatives for Request URI instead.");
-                uriScheme = "bitcoin-req";
+                var iframeWrapper = createEl("div", ["bitsent-iframe"], []);
+                iframeWrapper.id = "bitsentIFrameWrapper";
+                iframeWrapper.style.display = "none";
+
+                var addBitSentHandlerBtn = createEl("button", [], [], "Add BitSent as Handler");
+                addBitSentHandlerBtn.onclick = function(e) {
+                    iframeWrapper.innerHTML = "<iframe src='" + BITSENT_URL + "'></iframe>";
+                };
+                
+                modal.addTab("BitSent", 'bitsent-handler-tab', [
+                    createEl("p", [], [], altMessages[uriType]),
+                    createEl("p", [], [], altMessage_bitsent),
+                    addBitSentHandlerBtn,
+                    iframeWrapper,
+                    createEl("p",[],[], "Once you are done, simply click on this link to try again:"),
+                    linkElement
+                ]);
+            }
+
+            ////// OFFER QR CODE //////
+
+            showQR = !isMobile;
+            if(showQR && uri.length * 8 > 1056) {
+                showQR = false;
+                console.warn("BitBtn AppLink is too long to show as QR code : " + uri.length);
             }
 
             if (showQR) {
@@ -398,28 +432,27 @@ bitbtn = (function bitbtn() {
                 }
 
                 modal.addTab("QR Code", 'qr-code-tab', [
-                    createEl("p", [], [], altMessages[uriScheme]),
-                    createEl("p", [], [], altMessages_QR[uriScheme]),
+                    createEl("p", [], [], altMessages[uriType]),
+                    createEl("p", [], [], altMessages_QR[uriType]),
                     createEl('h4', [], [], "Scan Here:"),
                     imgContainer,
                     createEl("hr", [], []),
                     createEl("h3", [], [], "Supported Android Apps"),
-                    createEl("ul", ["wallet-list"], getWalletListItems(uriScheme, "Android")),
+                    createEl("ul", ["wallet-list"], getWalletListItems(uriType, "Android")),
                     createEl("hr", [], []),
                     createEl("h3", [], [], "Supported iOS Apps"),
-                    createEl("ul", ["wallet-list"], getWalletListItems(uriScheme, "iOS")),
+                    createEl("ul", ["wallet-list"], getWalletListItems(uriType, "iOS")),
                 ]);
 
             }
 
             ////// OFFER WALLET APPS //////
 
-            var osLabel = createEl("p", [], [], "Your OS is : " + os);
             modal.addTab("Wallets", 'wallets', [
-                createEl("p", [], [], altMessages[uriScheme]),
-                osLabel,
+                createEl("p", [], [], altMessages[uriType]),
+                createEl("p", [], [], "Your OS is : " + os),
                 createEl("p", [], [], "Here are some reccomended wallets:"),
-                createEl("ul", ["wallet-list"], getWalletListItems(uriScheme, os))
+                createEl("ul", ["wallet-list"], getWalletListItems(uriType, os))
             ]);
 
             modal.clickFirstTab();
@@ -936,7 +969,7 @@ bitbtn = (function bitbtn() {
             btn.setURI(
                 "bitcoin:" 
                 + out.address 
-                + "?sv=&amount=" 
+                + "?sv&amount=" 
                 + out.sats / SATOSHI_PER_BITCOIN
                 + "&label=" 
                 + encodeURIComponent(btn.params.walletMemo)
@@ -944,8 +977,10 @@ bitbtn = (function bitbtn() {
         }
         else {
             var infoParams = [
+                "req-bip275",
                 "paymentUrl=" + encodeURIComponent(btn.params.paymentUrl),
                 "network=" + encodeURIComponent(btn.params.network),
+                "outputs=" + encodeURIComponent(JSON.stringify(outs)),
                 "creationTimestamp=" + encodeURIComponent(btn.params.creationTimestamp),
                 "expirationTimestamp=" + encodeURIComponent(btn.params.expirationTimestamp),
                 "memo=" + encodeURIComponent( btn.params.walletMemo)
@@ -957,7 +992,7 @@ bitbtn = (function bitbtn() {
             var outs = btn.params.outputs.map(function (o) {
                 return { amount: o.sats, script: o.script }
             });
-            btn.setURI("bitcoin-req:" + encodeURIComponent(JSON.stringify(outs)) + "?" + infoParams.join("&"));
+            btn.setURI("bitcoin:?" + infoParams.join("&"));
         }
     }
 
@@ -1019,6 +1054,7 @@ bitbtn = (function bitbtn() {
 
         var timeout = setTimeout(function () {
             if (appLinkOpened) {
+                btn.showNotWork(2)
                 success();
             }
             else if (appLinkOpenedMaybe) {
@@ -1040,7 +1076,8 @@ bitbtn = (function bitbtn() {
 
         // btn.showLoadingInCircle(); // TODO: uncomment when method is implemented
 
-        console.error(new Error("BitBtn 'waitForPayment' cannot be implemented for BIP21 transactions!"))
+        if(btn.params.bip21)
+            console.error(new Error("BitBtn 'waitForPayment' cannot be implemented for BIP21 transactions!"))
 
         // TODO: if btn.params.bip21 is false - query bitIndex for the payment
 
@@ -1094,17 +1131,12 @@ bitbtn = (function bitbtn() {
         //                      If the user clicks it, then offer the modal window tabs
         //                      with iOS wallets that support the protocol being used.
 
-        var showQR = (os != "iOS" && os != "Android");
+        var isMobile = (os === "iOS" || os === "Android");
+        var uriType = (btn.params.bip21? "bip21" : "bip275");
+                
+        waitForPayment(btn);
 
-        if(btn.appLink.length * 8 > 1056) {
-            showQR = false;
-            console.warn("BitBtn AppLink is too long to show as QR code : " + btn.appLink.length)
-        }
-
-        if (showQR && !btn.params.bip21)
-            waitForPayment(btn);
-
-        modalWindow.showAlternatives(btn.appLink, showQR);
+        modalWindow.showAlternatives(btn.appLink, isMobile, uriType);
     }
 
     function onBtnClick(btn) {
