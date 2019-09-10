@@ -8,22 +8,14 @@ License: **OPEN ONLY-BSV-SPECIFIC LICENSE**
 
 The button has two modes of work:
 
-Request URI ([link](https://github.com/Siko91/URI-BIPs/blob/master/%5BDraft%5D%20bip-bitcoinsofia-requestURI.mediawiki))
-and BIP21 ([link](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki))
+Bitcoin Request URI ([bip275 link](https://github.com/moneybutton/bips/blob/master/bip-0275.mediawiki))
+and BIP21 ([bip21 link](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki))
 
 Request URI is the default.
 
 # Demonstration
 
-In this short video the full text of "Tao Te Ching" is uploaded on the blockchain without effort.
-
-https://www.youtube.com/watch?v=-qlGAjbrATY
-
-# Demonstration
-
-In this short video the full text of "Tao Te Ching" is uploaded on the blockchain without effort.
-
-https://www.youtube.com/watch?v=-qlGAjbrATY
+> // TODO: Insert demonstration video
 
 # Importing
 
@@ -124,6 +116,46 @@ btn = bitbtn.create(
     });
 ```
 
+# Configuration
+
+## Parameters
+
+| Parameter | Type | Default Value | Description |
+|---|---|---|---|
+| address | Bitcoin Address |  | A valid Bitcoin Address. |
+| script | Hex Output Script |  | A valid Bitcoin Output Script (in hexadecimal form) |
+| amount | Decimal Number | 0 | How much of the specified currency to include in the Bitcoin Output |
+| currency | String | "BSV" | Which currency should the Bitcoins be denominated in. See the list of supported currencies. |
+| bip21 | Boolean | false | If set to true, the  |
+| creationTimestamp | Epoch Time | current timestamp | Time of creation of the payment request. (For BIP-275 payments) |
+| expirationTimestamp | Epoch Time | 7 days from now | Time of expiration of the payment request. (For BIP-275 payments) |
+| label | String | "Send" | The text that will be displayed on the button itself. |
+| network | String | "bitcoin" | The network (for BIP-275 payments). It is advisible to leave the default value here. Only change it if you know what you are doing. |
+| outputs | Array |  | An array of outputs objects (explained bellow). |
+| paymentUrl | URL | https://api.bitsent.net/payments/pay | A url of the recipient of the BIP-270 payment. |
+| onError | Callback | empty callback | This method will be called if something goes wrong. |
+| **Debug** |
+| debug | Boolean | false | A setting used when debugging the button. |
+| **Not Implemented** |
+| paymail | Paymail Address |  | A valid paymail address. **(Not supported yet...)** |
+| onPayment | Callback | empty callback | This method will be called after a successful payment is verified **(Not supported yet...)** |
+| successMessage | String | "Done!" | Once a payment is successfully verified, this string will be displayed on the button, instead of the label. **(Not supported yet...)** |
+
+
+## Output Objects
+
+An output object in the 'outputs' array can have these properties: address, script, paymail, amount, currency
+
+Their types, default values and descriptions were already explained above.
+
+## Restrictions
+
+- If the property "outputs" is set, the properties address, script, paymail, amount and currency must be null. If the property "outputs" is NOT set, a single output will be generated from the listed properties.
+
+- Both in outputs and in the base parameters it is forbidden to set more than one of address/paymail/script at the same time. A Bitcoin Output can only have ONE destination.
+
+- If multiple outputs are specified, they must have the same currency.
+
 # Customization
 
 You can change how the button looks, by including a CSS file with the right ID.
@@ -165,13 +197,13 @@ If you see an error, take a screenshot and include it in a GitHub Issue.
 
 - Not tested on all browsers.
 - Not tested on all devices.
-- QR codes are only shown for links shorter than 132 letters.
 - Recognising if the deep link succeeded or failed can be hard on iOS.
-    - A workaround with a popping message is used.
-- While using BIP21, the button CAN NOT check if the payments were successful (due to race conditions).
+    - A workaround with a pop-up message is used.
+- While using BIP21, the button **CAN NOT** check if the payments were successful (due to race conditions).
     - Please perform such **checks in your own code** (by generating a separate bitcoin address for each user).
-    - This problem, can be resolved with the **Request URI BIP**. (It is not done yet.)
+    - This problem, can be resolved with the **Request URI BIP**, where control outputs can be added for marking the payment.
 
 # Notes
 
 - The button looks bad on mobile devices if the HTML document doesn't have a meta tag like: ``` <meta name="viewport" content="width=device-width, initial-scale=1"> ```
+Make sure to add that tag to your website.
