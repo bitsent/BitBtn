@@ -846,6 +846,9 @@ bitbtn = (function bitbtn() {
             );
         }
         else {
+            var outs = btn.params.outputs.map(function (o) {
+                return { amount: o.sats, script: o.script }
+            });
             var infoParams = [
                 "req-bip275",
                 "paymentUrl=" + encodeURIComponent(btn.params.paymentUrl),
@@ -855,13 +858,9 @@ bitbtn = (function bitbtn() {
                 "expirationTimestamp=" + encodeURIComponent(btn.params.expirationTimestamp),
                 "memo=" + encodeURIComponent( btn.params.walletMemo)
             ];
-
             if (btn.params.merchantData !== undefined)
                 infoParams.push("merchantData=" + encodeURIComponent(btn.params.merchantData));
 
-            var outs = btn.params.outputs.map(function (o) {
-                return { amount: o.sats, script: o.script }
-            });
             btn.setURI("bitcoin:?" + infoParams.join("&"));
         }
     }
