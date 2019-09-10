@@ -182,17 +182,6 @@
     cursor: pointer;
 }
 
-.bitbtn-modal-container .qr-code-img img {
-    display: block;
-    padding: 20px;
-    width:auto;
-    max-width:50%;
-    margin:auto;
-    margin-top:1em;
-    margin-bottom: 1em;
-    border: 1px solid black;
-}
-
 .bitbtn-modal-container .wallet-list {
     list-style: none;
     display: flex;
