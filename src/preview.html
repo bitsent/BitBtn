@@ -18,12 +18,9 @@
     <script src="bitbtn.js"></script>
 
     <script>
-        var lorem = "Veniam et minim dolor laboris officia enim in enim pariatur. Ut excepteur fugiat mollit ad ea tempor ut aute Lorem magna adipisicing tempor officia.";
-        lorem = lorem + lorem + lorem;
-
         btnArea = document.getElementById("button-area");
 
-        btnArea.append(lorem);
+        btnArea.innerHTML += "<br/><br/>BIP-21 button:<br/>";
         btn_bip21 = bitbtn.create(btnArea,
         {
             label: "Pay with BIP21!",
@@ -34,7 +31,7 @@
             currency: "USD",
             onError: function (error) { console.log(error); },
         });
-        btnArea.append(lorem);
+        btnArea.innerHTML += "<br/><br/>BIP-275 button:<br/>";
         btn_out = bitbtn.create(btnArea,
         {
             label: "Pay with OutputURI!",
@@ -44,7 +41,7 @@
             currency: "USD",
             onError: function (error) { console.log(error); },
         });
-        btnArea.append(lorem);
+        btnArea.innerHTML += "<br/><br/>Complex BIP-275 button:<br/>";
         btn_out2 = bitbtn.create(btnArea,
         {
             label: "Pay with Many Outputs!",
@@ -71,7 +68,7 @@
             debug: true,
             onError: function (error) { console.log(error); },
         });
-        btnArea.append(lorem);
+        btnArea.innerHTML += "<br/><br/><br/>";
 
 
     </script>
