@@ -6,67 +6,82 @@
 </head>
 
 <body>
-    <span id="button-area"> </span>
+    <span id="button-area">
+        <hr>
+        <h3>BIP-21 button:</h3>
+        <div id="bip21btn"></div>
+        <hr>
+        <h3>BIP-275 button:</h3>
+        <div id="bip275btn"></div>
+        <hr>
+        <h3>Complex BIP-275 button:</h3>
+        <div id="bip275btn-complex"></div>
+        <hr>
+    </span>
+
+    <script src="https://raw.githack.com/BitcoinSofia/html-console/master/htmlConsole.js"></script>
+    <div id="console-area"></div>
+    <script>
+        htmlConsole.create(document.getElementById("console-area"));
+        console.log("This is magic!");
+    </script>
 
     <script src="bitbtn.js"></script>
 
     <script>
-        var lorem = "Veniam et minim dolor laboris officia enim in enim pariatur. Ut excepteur fugiat mollit ad ea tempor ut aute Lorem magna adipisicing tempor officia.";
-        lorem = lorem + lorem + lorem;
 
-        btnArea = document.getElementById("button-area");
-
-        btnArea.append(lorem);
-        btn_bip21 = bitbtn.create(btnArea,
-        {
+        btn_bip21 = bitbtn.create(
+            document.getElementById("bip21btn"), {
             label: "Pay with BIP21!",
             address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
             amount: 1.247,
             debug: true,
             bip21: true,
             currency: "USD",
-            onError: function (error) { console.log(error); },
+            onError: function (error) {
+                console.log(error);
+            },
         });
-        btnArea.append(lorem);
-        btn_out = bitbtn.create(btnArea,
-        {
+
+        btn_out = bitbtn.create(
+            document.getElementById("bip275btn"), {
             label: "Pay with OutputURI!",
             address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
             amount: 1.247,
             debug: true,
             currency: "USD",
-            onError: function (error) { console.log(error); },
+            onError: function (error) {
+                console.log(error);
+            },
         });
-        btnArea.append(lorem);
-        btn_out2 = bitbtn.create(btnArea,
-        {
-            label: "Pay with Many Outputs!",
-            outputs: [
-                {
-                    address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
-                    amount: 1,
-                    currency: "USD",
-                },
-                {
-                    script: bitbtn.scripter.p2pkh("1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh"),
-                    amount: 0.247,
-                    currency: "USD"
-                },
-                {
-                    script: bitbtn.scripter.op_return(
-                        bitbtn.scripter.str2hex([
-                            "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
-                            "BitBtn is Awesome!"
-                        ])),
-                    amount: 0
-                },
-            ],
-            debug: true,
-            onError: function (error) { console.log(error); },
-        });
-        btnArea.append(lorem);
 
-
+        btn_out2 = bitbtn.create(
+            document.getElementById("bip275btn-complex"), {
+                label: "Pay with Many Outputs!",
+                outputs: [{
+                        address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                        amount: 1,
+                        currency: "USD",
+                    },
+                    {
+                        script: bitbtn.scripter.p2pkh("1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh"),
+                        amount: 0.247,
+                        currency: "USD"
+                    },
+                    {
+                        script: bitbtn.scripter.op_return(
+                            bitbtn.scripter.str2hex([
+                                "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
+                                "BitBtn is Awesome!"
+                            ])),
+                        amount: 0
+                    },
+                ],
+                debug: true,
+                onError: function (error) {
+                    console.log(error);
+                },
+            });
     </script>
 
 </body>
