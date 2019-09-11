@@ -1015,7 +1015,7 @@ bitbtn = (function bitbtn() {
                 if (btn.params.bip21 === true) {
                     btn.showSuccessInCircle();
                 } else {
-                    waitForPayment();
+                    waitForPayment(btn);
                 }
             },
             failure = function () {
