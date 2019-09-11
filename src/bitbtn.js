@@ -249,6 +249,10 @@ bitbtn = (function bitbtn() {
                 var firstTabBtn = modalHeader.querySelectorAll("button")[0];
                 firstTabBtn.click();
             };
+            modal.clickTab = function (index) {
+                var tabBtn = modalHeader.querySelectorAll("button")[index];
+                tabBtn.click();
+            };
 
             return modal;
         }
@@ -307,30 +311,28 @@ bitbtn = (function bitbtn() {
             var modal = initModal();
         
             ////// OFFER BITSENT HANDLER //////
-            if (!isMobile) {
-                var butcoinRequestLink = createEl("a", ["bitcoin-uri"], [], "Payment Request Link");
-                butcoinRequestLink.rel="noopener noreferrer";
-                butcoinRequestLink.target="_blank";
-                butcoinRequestLink.href = uri;
+            var butcoinRequestLink = createEl("a", ["bitcoin-uri"], [], "Payment Request Link");
+            butcoinRequestLink.rel="noopener noreferrer";
+            butcoinRequestLink.target="_blank";
+            butcoinRequestLink.href = uri;
 
-                var iframeWrapper = createEl("div", ["bitsent-iframe"], []);
-                iframeWrapper.id = "bitsentIFrameWrapper";
-                iframeWrapper.style.display = "none";
+            var iframeWrapper = createEl("div", ["bitsent-iframe"], []);
+            iframeWrapper.id = "bitsentIFrameWrapper";
+            iframeWrapper.style.display = "none";
 
-                var addBitSentHandlerBtn = createEl("button", [], [], "Add BitSent as Handler");
-                addBitSentHandlerBtn.onclick = function(e) {
-                    iframeWrapper.innerHTML = "<iframe src='" + BITSENT_URL + "'></iframe>";
-                };
-                
-                modal.addTab("BitSent", 'bitsent-handler-tab', [
-                    createEl("p", [], [], altMessages[uriType]),
-                    createEl("p", [], [], altMessage_bitsent),
-                    addBitSentHandlerBtn,
-                    iframeWrapper,
-                    createEl("p",[],[], "Once you are done, simply click on this link to try again:"),
-                    butcoinRequestLink
-                ]);
-            }
+            var addBitSentHandlerBtn = createEl("button", [], [], "Add BitSent as Handler");
+            addBitSentHandlerBtn.onclick = function(e) {
+                iframeWrapper.innerHTML = "<iframe src='" + BITSENT_URL + "'></iframe>";
+            };
+            
+            modal.addTab("BitSent", 'bitsent-handler-tab', [
+                createEl("p", [], [], altMessages[uriType]),
+                createEl("p", [], [], altMessage_bitsent),
+                addBitSentHandlerBtn,
+                iframeWrapper,
+                createEl("p",[],[], "Once you are done, simply click on this link to try again:"),
+                butcoinRequestLink
+            ]);
 
             ////// OFFER WALLET APPS //////
 
@@ -345,14 +347,16 @@ bitbtn = (function bitbtn() {
                 walletListLink
             ]);
 
-            modal.clickFirstTab();
+            if (!isMobile) modal.clickTab(0);
+            else modal.clickTab(1);
+            
             showModalASAP(modal);
         }
 
         function showError(errorMessage) {
             var modal = initModal();
             modal.addTab("Error", "errorMessage", [createEl("p", [], [], errorMessage)]);
-            modal.clickFirstTab();
+            modal.clickTab(0);
             showModalASAP(modal);
         }
 
