@@ -294,11 +294,6 @@ bitbtn = (function bitbtn() {
 
         showModalASAP = (function showModalASAP() {
             function showModal(modal) {
-                modal.querySelector(".modal-body").appendChild(
-                    createEl("p", ["small-text"], [],
-                        "Timestamp : " + new Date().toLocaleTimeString())
-                );
-
                 document.body.appendChild(modal);
                 modal.style.display = "block";
 
@@ -367,7 +362,7 @@ bitbtn = (function bitbtn() {
                 createEl("p", [], [], altMessage_bitsent),
                 addBitSentHandlerBtn,
                 iframeWrapper,
-                createEl("p", [], [], altMessage_browserProtocolPoorSupport),
+                createEl("p", ["small-text"], [], altMessage_browserProtocolPoorSupport),
                 createEl("p", [], [], "Once you are done, simply click on this link to try again:"),
                 butcoinRequestLink
             ]);
