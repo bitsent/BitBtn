@@ -1,17 +1,17 @@
 /*jshint esversion: 6 */
 /*
-* ---------------------------------------------------------------------
-*  BitBtn
-* 
-*  Copyright 2019 Aleksandar Dinkov
-* 
-*  URL: http://www.d-project.com/
-* 
-*  Licensed under the OPEN ONLY-BSV-SPECIFIC LICENSE (v0.3.0):
-*    https://github.com/Pipe-Cash/OPEN-BLOCKCHAIN-SPECIFIC-LICENSE/releases/tag/v0.3.0
-* 
-* ---------------------------------------------------------------------
-*/
+ * ---------------------------------------------------------------------
+ *  BitBtn
+ * 
+ *  Copyright 2019 Aleksandar Dinkov
+ * 
+ *  URL: http://www.d-project.com/
+ * 
+ *  Licensed under the OPEN ONLY-BSV-SPECIFIC LICENSE (v0.3.0):
+ *    https://github.com/Pipe-Cash/OPEN-BLOCKCHAIN-SPECIFIC-LICENSE/releases/tag/v0.3.0
+ * 
+ * ---------------------------------------------------------------------
+ */
 bitbtn = (function bitbtn() {
 
     var SATOSHI_PER_BITCOIN = 100000000;
@@ -151,19 +151,54 @@ bitbtn = (function bitbtn() {
 
         var nAgt = navigator.userAgent;
 
-        var clientStrings = [
-            { s: 'Windows', r: /(Windows)/ },
-            { s: 'Android', r: /Android/ },
-            { s: 'Open BSD', r: /OpenBSD/ },
-            { s: 'Sun OS', r: /SunOS/ },
-            { s: 'Linux', r: /(Linux|X11)/ },
-            { s: 'iOS', r: /(iPhone|iPad|iPod)/ },
-            { s: 'Mac OS X', r: /Mac OS X/ },
-            { s: 'Mac OS', r: /(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/ },
-            { s: 'QNX', r: /QNX/ },
-            { s: 'UNIX', r: /UNIX/ },
-            { s: 'BeOS', r: /BeOS/ },
-            { s: 'OS/2', r: /OS\/2/ }
+        var clientStrings = [{
+                s: 'Windows',
+                r: /(Windows)/
+            },
+            {
+                s: 'Android',
+                r: /Android/
+            },
+            {
+                s: 'Open BSD',
+                r: /OpenBSD/
+            },
+            {
+                s: 'Sun OS',
+                r: /SunOS/
+            },
+            {
+                s: 'Linux',
+                r: /(Linux|X11)/
+            },
+            {
+                s: 'iOS',
+                r: /(iPhone|iPad|iPod)/
+            },
+            {
+                s: 'Mac OS X',
+                r: /Mac OS X/
+            },
+            {
+                s: 'Mac OS',
+                r: /(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/
+            },
+            {
+                s: 'QNX',
+                r: /QNX/
+            },
+            {
+                s: 'UNIX',
+                r: /UNIX/
+            },
+            {
+                s: 'BeOS',
+                r: /BeOS/
+            },
+            {
+                s: 'OS/2',
+                r: /OS\/2/
+            }
         ];
 
         var os = "Unknown";
@@ -309,11 +344,11 @@ bitbtn = (function bitbtn() {
 
         function showAlternatives(uri, isMobile, uriType) {
             var modal = initModal();
-        
+
             ////// OFFER BITSENT HANDLER //////
             var butcoinRequestLink = createEl("a", ["bitcoin-uri"], [], "Payment Request Link");
-            butcoinRequestLink.rel="noopener noreferrer";
-            butcoinRequestLink.target="_blank";
+            butcoinRequestLink.rel = "noopener noreferrer";
+            butcoinRequestLink.target = "_blank";
             butcoinRequestLink.href = uri;
 
             var iframeWrapper = createEl("div", ["bitsent-iframe"], []);
@@ -321,16 +356,16 @@ bitbtn = (function bitbtn() {
             iframeWrapper.style.display = "none";
 
             var addBitSentHandlerBtn = createEl("button", [], [], "Add BitSent as Handler");
-            addBitSentHandlerBtn.onclick = function(e) {
+            addBitSentHandlerBtn.onclick = function (e) {
                 iframeWrapper.innerHTML = "<iframe src='" + BITSENT_URL + "'></iframe>";
             };
-            
+
             modal.addTab("BitSent", 'bitsent-handler-tab', [
                 createEl("p", [], [], altMessages[uriType]),
                 createEl("p", [], [], altMessage_bitsent),
                 addBitSentHandlerBtn,
                 iframeWrapper,
-                createEl("p",[],[], "Once you are done, simply click on this link to try again:"),
+                createEl("p", [], [], "Once you are done, simply click on this link to try again:"),
                 butcoinRequestLink
             ]);
 
@@ -338,8 +373,8 @@ bitbtn = (function bitbtn() {
 
             var walletListLink = createEl("a", ["wallet-list-link"], [], "BitSent's Reccomended Wallets");
             walletListLink.href = BITSENT_RECOMMENDED_WALLETS_URL + "?os=" + encodeURIComponent(os) + "&uritype=" + encodeURIComponent(uriType);
-            walletListLink.rel="noopener noreferrer";
-            walletListLink.target="_blank";
+            walletListLink.rel = "noopener noreferrer";
+            walletListLink.target = "_blank";
 
             modal.addTab("Wallets", 'wallets', [
                 createEl("p", [], [], altMessages[uriType]),
@@ -349,7 +384,7 @@ bitbtn = (function bitbtn() {
 
             if (!isMobile) modal.clickTab(0);
             else modal.clickTab(1);
-            
+
             showModalASAP(modal);
         }
 
@@ -499,15 +534,15 @@ bitbtn = (function bitbtn() {
             }
 
             if (!("creationTimestamp" in params)) {
-                params.creationTimestamp = Math.floor(+new Date()/1000);
+                params.creationTimestamp = Math.floor(+new Date() / 1000);
             }
             if (typeof params.creationTimestamp !== "number") {
                 throw new TypeError("BitBtn creationTimestamp must be a number!");
             }
 
             if (!("expirationTimestamp" in params)) {
-                var _7days = 7*24*60*60;
-                params.expirationTimestamp = Math.floor(+new Date()/1000) + _7days;
+                var _7days = 7 * 24 * 60 * 60;
+                params.expirationTimestamp = Math.floor(+new Date() / 1000) + _7days;
             }
             if (typeof params.expirationTimestamp !== "number") {
                 throw new TypeError("BitBtn expirationTimestamp must be a number!");
@@ -522,12 +557,11 @@ bitbtn = (function bitbtn() {
             if (params.walletMemo.length > 50) {
                 throw new RangeError("BitBtn 'walletMemo' cannot be longer than 50 characters");
             }
-            
+
             if ("merchantData" in params) {
                 if (typeof params.merchantData === "object") {
                     params.merchantData = JSON.stringify(params.merchantData);
-                }
-                else {
+                } else {
                     params.merchantData = params.merchantData.toString();
                 }
 
@@ -544,14 +578,14 @@ bitbtn = (function bitbtn() {
             }
 
             if (!("onPayment" in params)) {
-                params.onPayment = function (_) { };
+                params.onPayment = function (_) {};
             }
             if (typeof params.onPayment !== "function") {
                 throw new TypeError("BitBtn onPayment must be a function!");
             }
 
             if (!("onError" in params)) {
-                params.onError = function (_) { };
+                params.onError = function (_) {};
             }
             if (typeof params.onError !== "function") {
                 throw new TypeError("BitBtn onError must be a function!");
@@ -563,7 +597,7 @@ bitbtn = (function bitbtn() {
             if (typeof params.bip21 !== "boolean") {
                 throw new TypeError("BitBtn 'bip21' must be a boolean.");
             }
-            
+
             if ("outputs" in params) {
                 for (var i in outputParamNames) {
                     if (outputParamNames[i] in params) {
@@ -580,7 +614,7 @@ bitbtn = (function bitbtn() {
                 }
                 params.outputs = [_output];
             }
-            
+
             if (params.bip21 === true) {
                 if (params.outputs.length > 1) {
                     throw new Error("Cannot have multiple outputs when using BIP21");
@@ -605,7 +639,7 @@ bitbtn = (function bitbtn() {
             params.amount = 0;
             for (var i in params.outputs) {
 
-                if(params.outputs[i].currency !== params.currency) {
+                if (params.outputs[i].currency !== params.currency) {
                     if (params.outputs[i].amount !== 0) {
                         throw new Error("All outputs must use the same currency");
                     }
@@ -678,6 +712,7 @@ bitbtn = (function bitbtn() {
         }
 
         var hexChars = "0123456789abcdef".split("");
+
         function ensureScriptIsHex(output) {
             var s = output.script;
             if (s.length % 2 != 0) {
@@ -754,9 +789,9 @@ bitbtn = (function bitbtn() {
             }).join('')
         }
 
-        function hex2littleEndian(hexValue){
+        function hex2littleEndian(hexValue) {
             var hexParts = []
-            for (var i = 0; i < hexValue.length; i+=2)
+            for (var i = 0; i < hexValue.length; i += 2)
                 hexParts.push(hexValue.substr(i, 2));
             return hexParts.reverse().join("")
         }
@@ -796,27 +831,29 @@ bitbtn = (function bitbtn() {
             return resultScript;
         }
 
-        function str2hex(str){
+        function str2hex(str) {
             if (Array.isArray(str))
-                return str.map(function(part) { return str2hex(part) });
+                return str.map(function (part) {
+                    return str2hex(part)
+                });
 
             var result = "";
-            for (var i=0; i<str.length; i++) {
+            for (var i = 0; i < str.length; i++) {
                 var hex = str.charCodeAt(i).toString(16);
-                result += ("0"+hex).slice(-2);
+                result += ("0" + hex).slice(-2);
             }
             return result;
         }
 
         function op_return(hexValues, use_op_false) {
-            if(use_op_false === undefined)
+            if (use_op_false === undefined)
                 use_op_false = true
 
-            if (typeof(hexValues) == "string")
-                hexValues = [ hexValues ];
+            if (typeof (hexValues) == "string")
+                hexValues = [hexValues];
             if (!Array.isArray(hexValues))
                 throw new Error("op_return method expects an array of hexadecimal strings");
-            var resultScript = use_op_false? "006a" : "6a"
+            var resultScript = use_op_false ? "006a" : "6a"
             for (var i = 0; i < hexValues.length; i++) {
                 resultScript = resultScript + hexValueInScript(hexValues[i]);
             }
@@ -841,17 +878,19 @@ bitbtn = (function bitbtn() {
         if (btn.params.bip21 === true) {
             var out = btn.params.outputs[0];
             btn.setURI(
-                "bitcoin:" 
-                + out.address 
-                + "?sv&amount=" 
-                + out.sats / SATOSHI_PER_BITCOIN
-                + "&label=" 
-                + encodeURIComponent(btn.params.walletMemo)
+                "bitcoin:" +
+                out.address +
+                "?sv&amount=" +
+                out.sats / SATOSHI_PER_BITCOIN +
+                "&label=" +
+                encodeURIComponent(btn.params.walletMemo)
             );
-        }
-        else {
+        } else {
             var outs = btn.params.outputs.map(function (o) {
-                return { amount: o.sats, script: o.script }
+                return {
+                    amount: o.sats,
+                    script: o.script
+                }
             });
             var infoParams = [
                 "req-bip275",
@@ -860,7 +899,7 @@ bitbtn = (function bitbtn() {
                 "outputs=" + encodeURIComponent(JSON.stringify(outs)),
                 "creationTimestamp=" + encodeURIComponent(btn.params.creationTimestamp),
                 "expirationTimestamp=" + encodeURIComponent(btn.params.expirationTimestamp),
-                "memo=" + encodeURIComponent( btn.params.walletMemo)
+                "memo=" + encodeURIComponent(btn.params.walletMemo)
             ];
             if (btn.params.merchantData !== undefined)
                 infoParams.push("merchantData=" + encodeURIComponent(btn.params.merchantData));
@@ -892,7 +931,7 @@ bitbtn = (function bitbtn() {
 
         var intentCta = function (appLink) {
             var linkScheme = appLink.substr(0, appLink.indexOf(':'));
-            var linkPath = appLink.substr(appLink.indexOf(':')+1);
+            var linkPath = appLink.substr(appLink.indexOf(':') + 1);
             var intentUri = "intent:" + linkPath + "#Intent;scheme=" + linkScheme + ";end";
             direct(intentUri)
         }
@@ -908,8 +947,14 @@ bitbtn = (function bitbtn() {
 
     var appLinkOpened = false;
     var appLinkOpenedMaybe = false;
-    function onAppLinkOpened() { appLinkOpened = true; }
-    function onAppLinkOpenedMaybe() { appLinkOpenedMaybe = true; }
+
+    function onAppLinkOpened() {
+        appLinkOpened = true;
+    }
+
+    function onAppLinkOpenedMaybe() {
+        appLinkOpenedMaybe = true;
+    }
 
     window.addEventListener('pagehide', onAppLinkOpened, false);
     window.addEventListener('blur', onAppLinkOpened, false);
@@ -929,15 +974,12 @@ bitbtn = (function bitbtn() {
             if (appLinkOpened) {
                 btn.showNotWork(2)
                 success();
-            }
-            else if (appLinkOpenedMaybe) {
+            } else if (appLinkOpenedMaybe) {
                 btn.showNotWork();
-            }
-            else {
+            } else {
                 if (os == "iOS") {
                     btn.showNotWork(5)
-                }
-                else {
+                } else {
                     failure();
                 }
             }
@@ -949,7 +991,7 @@ bitbtn = (function bitbtn() {
 
         // btn.showLoadingInCircle(); // TODO: uncomment when method is implemented
 
-        if(btn.params.bip21)
+        if (btn.params.bip21)
             console.error(new Error("BitBtn 'waitForPayment' cannot be implemented for BIP21 transactions!"))
 
         // TODO: if btn.params.bip21 is false - query bitIndex for the payment
@@ -1005,8 +1047,8 @@ bitbtn = (function bitbtn() {
         //                      with iOS wallets that support the protocol being used.
 
         var isMobile = (os === "iOS" || os === "Android");
-        var uriType = (btn.params.bip21? "bip21" : "bip275");
-                
+        var uriType = (btn.params.bip21 ? "bip21" : "bip275");
+
         waitForPayment(btn);
 
         modalWindow.showAlternatives(btn.appLink, isMobile, uriType);
@@ -1024,7 +1066,7 @@ bitbtn = (function bitbtn() {
             failure = function () {
                 btn.showErrorInCircle();
                 showAlternatives(btn);
-                var onError = btn.params.onError || (function (_) { });
+                var onError = btn.params.onError || (function (_) {});
                 onError(new Error("Did not detect app opening. " +
                     "Assuming that the user doesn't have a matching app."));
             });
@@ -1042,7 +1084,7 @@ bitbtn = (function bitbtn() {
             }
             return btn;
         } catch (e) {
-            var onError = params.onError || (function (_) { });
+            var onError = params.onError || (function (_) {});
             modalWindow.showError(e);
             onError(e);
         }
