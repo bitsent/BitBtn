@@ -23,30 +23,42 @@
     margin: 0 0.15em;
 }
 
-@-webkit-keyframes bitbtn-spinner{
-    to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
+@-webkit-keyframes bitbtn-spinner {
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
     }
 }
-@keyframes bitbtn-spinner{
-    to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
+
+@keyframes bitbtn-spinner {
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
     }
 }
 
 @-webkit-keyframes bitbtn-border-success {
-    to { border-color: limegreen; }
+    to {
+        border-color: limegreen;
+    }
 }
+
 @keyframes bitbtn-border-success {
-    to { border-color: limegreen; }
+    to {
+        border-color: limegreen;
+    }
 }
+
 @-webkit-keyframes bitbtn-border-error {
-    to { border-color: pink; }
+    to {
+        border-color: pink;
+    }
 }
+
 @keyframes bitbtn-border-error {
-    to { border-color: pink; }
+    to {
+        border-color: pink;
+    }
 }
 
 .bitbtn .status-circle {
@@ -108,25 +120,22 @@
     display: block;
 }
 
-
-
-.bitbtn .small-text, .bitbtn-modal-container .small-text {
-    font-size: 0.6em;
+.bitbtn .small-text,
+.bitbtn-modal-container .small-text {
+    font-size: 0.8em;
 }
 
-
-
-
 .bitbtn-modal-container {
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     display: none;
-    z-index: 2147483647; /*max value*/
+    z-index: 2147483647;
+    /*max value*/
     padding-top: 100px;
     overflow: auto;
 }
@@ -136,16 +145,19 @@
     background-color: #fefefe;
     margin: auto;
     border: 1px solid #888;
-    width: 70%;
-    height: 70vh;
+    width: 500px;
+    height: 700px;
+    max-width: 70%;
+    max-height: 70vh;
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
 .bitbtn-modal-container .modal-header {
     display: block;
     background-color: #e6e6e6;
     position: sticky;
-    top:0;
+    top: 0;
 }
 
 .bitbtn-modal-container .modal-header button {
@@ -198,11 +210,15 @@
 
 .bitbtn-modal-container .wallet-list .wallet-item:hover {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#96c8c8+0,96c8c8+100&0+0,1+65,0+67 */
-    background: -moz-linear-gradient(-45deg,  rgba(150,200,200,0) 0%, rgba(150,200,200,1) 65%, rgba(150,200,200,0) 67%, rgba(150,200,200,0) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg,  rgba(150,200,200,0) 0%,rgba(150,200,200,1) 65%,rgba(150,200,200,0) 67%,rgba(150,200,200,0) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg,  rgba(150,200,200,0) 0%,rgba(150,200,200,1) 65%,rgba(150,200,200,0) 67%,rgba(150,200,200,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0096c8c8', endColorstr='#0096c8c8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-    
+    background: -moz-linear-gradient(-45deg, rgba(150, 200, 200, 0) 0%, rgba(150, 200, 200, 1) 65%, rgba(150, 200, 200, 0) 67%, rgba(150, 200, 200, 0) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, rgba(150, 200, 200, 0) 0%, rgba(150, 200, 200, 1) 65%, rgba(150, 200, 200, 0) 67%, rgba(150, 200, 200, 0) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, rgba(150, 200, 200, 0) 0%, rgba(150, 200, 200, 1) 65%, rgba(150, 200, 200, 0) 67%, rgba(150, 200, 200, 0) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0096c8c8', endColorstr='#0096c8c8', GradientType=1);
+    /* IE6-9 fallback on horizontal gradient */
+
 }
 
 .bitbtn-modal-container .wallet-list .wallet-item img {
