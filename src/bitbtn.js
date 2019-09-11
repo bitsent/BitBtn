@@ -337,10 +337,12 @@ bitbtn = (function bitbtn() {
 
         var altMessages = {
             "bip21": "Looks like you don't have a wallet that supports 'BIP21' deep linking.",
-            "bip275": "Looks like you don't have a wallet that support Bitcoin Request URI deep linking."
+            "bip275": "Looks like you don't have a wallet that supports Bitcoin Request URI (BIP-275) deep linking."
         };
 
         var altMessage_bitsent = "You could add BitSent.NET as a handler for all 'bitcoin:' links. Just click the button bellow.";
+
+        var altMessage_browserProtocolPoorSupport = "Keep in mind that this functionality is not supported on all browsers. Support is especially poor on mobile devices. If you are on a mobile device it is better to look for a wallet that supports this URI";
 
         function showAlternatives(uri, isMobile, uriType) {
             var modal = initModal();
@@ -365,6 +367,7 @@ bitbtn = (function bitbtn() {
                 createEl("p", [], [], altMessage_bitsent),
                 addBitSentHandlerBtn,
                 iframeWrapper,
+                createEl("p", [], [], altMessage_browserProtocolPoorSupport),
                 createEl("p", [], [], "Once you are done, simply click on this link to try again:"),
                 butcoinRequestLink
             ]);
