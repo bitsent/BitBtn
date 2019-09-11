@@ -63,7 +63,7 @@ BitBtn uses CoinGecko for price discovery. It supports many FIAT currencies:
 "sek", "sgd", "thb", "try", "twd", "uah", "vef",
 "vnd", "zar", "xdr", "xag", "xau"
 
-And of course "BSV" and "SATS" are supported too.
+And of course "BSV" and "SATOSHI" are supported too.
 
 # Advanced Usage
 
