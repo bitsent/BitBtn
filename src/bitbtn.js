@@ -403,7 +403,7 @@ bitbtn = (function bitbtn() {
 
     function createBasicBtn() {
 
-        var btn = document.createElement("button");
+        var btn = document.createElement("a");
         btn.type = "button";
         btn.classList.add("bitbtn")
         if (os == "iOS" || os == "Android") {
@@ -470,6 +470,7 @@ bitbtn = (function bitbtn() {
         btn.appLink = "bitcoin:"
         btn.setURI = function (uri) {
             btn.appLink = uri;
+            btn.href = uri;
         }
 
         var notWork = document.createElement("div");
@@ -1078,8 +1079,9 @@ bitbtn = (function bitbtn() {
             setBtnParams(btn, params);
             btn.onclick = function (e) {
                 e.stopPropagation();
+                e.preventDefault();
                 onBtnClick(e.currentTarget);
-            }
+            };
             return btn;
         } catch (e) {
             var onError = params.onError || (function (_) {});
