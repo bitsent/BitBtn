@@ -393,8 +393,11 @@ bitbtn = (function bitbtn() {
     var altMessage_bitsent =
       "You could add BitSent.NET as a handler for all 'bitcoin:' links. Just click the button bellow.";
 
-    var altMessage_browserProtocolPoorSupport =
+      var altMessage_browserProtocolPoorSupport =
       "Keep in mind that this functionality is not supported on all browsers. Support is especially poor on mobile devices. If you are on a mobile device it is better to look for a wallet that supports this URI";
+
+      var altMessage_lookForHandlerRequest =
+        "Browsers don't always make it obvious that a website is requesting to handle a protocol. Look around your navigation bar for any new icons.";
 
     function showAlternatives(uri, isMobile, uriType) {
       var modal = initModal();
@@ -429,6 +432,12 @@ bitbtn = (function bitbtn() {
         createEl("p", [], [], altMessage_bitsent),
         addBitSentHandlerBtn,
         iframeWrapper,
+        createEl(
+          "p",
+          [],
+          [],
+          altMessage_lookForHandlerRequest
+        ),
         createEl(
           "p",
           ["small-text"],
