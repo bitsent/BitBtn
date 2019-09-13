@@ -140,6 +140,22 @@ bitbtn = (function bitbtn() {
         return getPrice;
     })();
 
+    var browser = (function() {
+        var b,
+          ua = navigator.userAgent.match(
+            /(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i
+          );
+        if (
+          navigator.userAgent.match(/Edge/i) ||
+          navigator.userAgent.match(/Trident.*rv[ :]*11\./i)
+        ) {
+          b = "msie";
+        } else {
+          b = ua[1].toLowerCase();
+        }
+        return b;
+      })();
+
     var os = (function () {
         /**
          * JavaScript OS Detection
@@ -940,6 +956,9 @@ bitbtn = (function bitbtn() {
             final = cta;
         else if (os == "Android")
             final = intentCta
+        else if (browser == "chrome")
+            final = cta;
+        
 
         return final;
     }());
