@@ -57,12 +57,28 @@
     <hr>
 
     <div>
+        <h3> Colors </h3>
+        <p>
+            To change the colors of a button, simply set the 'backgroundColor' and 'textColor' properties of the button.
+        </p>
+        <xmp class="code">
+    btn = bitbtn.create(
+        document.getElementById("location-for-the-bitcoin-button"),
+        {
+            address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+            amount: 1.247,
+            currency: "USD",
+            backgroundColor: "#7070ff",
+            textColor: "white",
+        });
+        </xmp>
+
         <h3> Customization </h3>
         <p>
             You can change how the button looks, by including a CSS file with the right ID.
         </p>
         <xmp class="code">
-            <link rel="stylesheet" href="custom-bitbtn-style.css" id="bitbtn-css">
+    <link rel="stylesheet" href="custom-bitbtn-style.css" id="bitbtn-css">
         </xmp>
         <p>
             The BitBtn scripts adds a default style for the buttons if the element with this ID is not present. If it
