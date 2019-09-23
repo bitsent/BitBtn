@@ -1,7 +1,6 @@
 .bitbtn {
     position: relative;
-    padding: .5em .75em;
-    font-size: 1em;
+    padding: .40em .78em .55em 0.78em;
     line-height: 1.5;
     display: inline-block;
 
@@ -12,15 +11,17 @@
     vertical-align: middle;
     white-space: nowrap;
 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    text-decoration: none;
+
     border-radius: 1.5em;
-    border: 0.3em ridge;
-    border-color: #0054ad;
     background-color: #007bff;
     color: #fff;
 }
 
 .bitbtn span {
     margin: 0 0.15em;
+    vertical-align: middle;
 }
 
 @-webkit-keyframes bitbtn-spinner{
@@ -36,22 +37,10 @@
     }
 }
 
-@-webkit-keyframes bitbtn-border-success {
-    to { border-color: limegreen; }
-}
-@keyframes bitbtn-border-success {
-    to { border-color: limegreen; }
-}
-@-webkit-keyframes bitbtn-border-error {
-    to { border-color: pink; }
-}
-@keyframes bitbtn-border-error {
-    to { border-color: pink; }
-}
-
 .bitbtn .status-circle {
-    width: 0.8em;
-    height: 0.8em;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 4px;
 
     display: inline-block;
     vertical-align: text-bottom;
@@ -76,20 +65,26 @@
 
 .bitbtn .status-circle.success {
     border-color: transparent;
-    background-color: rgb(163, 252, 30);
+    background-color: #00FF84;
 }
 
 .bitbtn .status-circle.error {
     border-color: transparent;
-    background-color: rgb(251, 145, 163);
+    background-color: #FF0400;
 }
 
 .bitbtn .bitbtn-amount {
-    font-size: 1em;
+    font-size: 11px;
     display: inline-block;
     background: #ffffff50;
     border-radius: 10%;
-    padding: 0 3px;
+    padding: 0 4px;
+    margin: 0 2px;
+}
+
+.bitbtn .bitbtn-amount:empty {
+    margin: 0;
+    padding: 0 1px 0 0;
 }
 
 .bitbtn .bitbtn-not-work {
