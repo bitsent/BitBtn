@@ -515,13 +515,9 @@ bitbtn = (function bitbtn() {
 
       if (0 < smallSide && smallSide < 500) {
         btn.classList.add("bitbtn-phone");
-        // btn.style.fontSize = 0.5 + "cm";
-        // btn.style.fontSize = 3.3 + "vmin";
       }
       if (499 < smallSide && smallSide < 1000) {
         btn.classList.add("bitbtn-tablet");
-        // btn.style.fontSize = 0.3 + "cm";
-        // btn.style.fontSize = 1.8 + "vmin";
       }
     }
 
@@ -573,6 +569,11 @@ bitbtn = (function bitbtn() {
       btn.appLink = uri;
       btn.href = uri;
     };
+
+    btn.setColors = function(backgroundColor, foregroundColor) {
+      if(backgroundColor) btn.style.backgroundColor = backgroundColor;
+      if(foregroundColor) btn.style.color = foregroundColor;
+    }
 
     var notWork = document.createElement("div");
     notWork.classList.add("bitbtn-not-work");
@@ -751,6 +752,13 @@ bitbtn = (function bitbtn() {
           }
         }
         params.amount += params.outputs[i].amount;
+      }
+
+      if ("foregroundColor" in params && typeof(params.foregroundColor) !== "string") {
+        throw new TypeError("foregroundColor must be a string");
+      }
+      if ("backgroundColor" in params && typeof(params.backgroundColor) !== "string") {
+        throw new TypeError("backgroundColor must be a string");
       }
     }
 
@@ -997,6 +1005,7 @@ bitbtn = (function bitbtn() {
     var roundedAmount = Math.round(btn.params.amount * 100) / 100;
     btn.setAmount(roundedAmount + " " + btn.params.currency.toUpperCase());
     btn.setLabel(btn.params.label);
+    btn.setColors(params.backgroundColor, params.foregroundColor)
 
     if (btn.params.bip21 === true) {
       var out = btn.params.outputs[0];

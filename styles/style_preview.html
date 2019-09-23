@@ -14,10 +14,8 @@
         <label for="style-selector"> Select your Style: </label>
         <select name="styleSelector" id="style-selector">
             <option value="btnStyle.css">Default</option>
-            <option value="btnStyle-black.css">Black</option>
-            <option value="btnStyle-red.css">Red</option>
-            <option value="btnStyle-white.css">White</option>
-            <option value="btnStyle-minimal.css">Minimal</option>
+            <option value="btnStyle-classic.css">Classic</option>
+            <option value="btnStyle-cardboard.css">Cardboard</option>
         </select>
     </span>
 
@@ -29,6 +27,20 @@
             <option value="addons/btn-addon-letter-spacing.css">Letter Spacing</option>
             <option value="addons/btn-addon-square.css">Square</option>
         </select>
+    </span>
+    
+    <br>
+
+    <span style="padding: 20px; display: inline-block;">
+        <label for="background-checkbox"> background: </label>
+        <input type="checkbox" name="background-checkbox" id="background-checkbox">
+        <input type="color" name="background" id="background" value="#007bff">
+    </span>
+
+    <span style="padding: 20px; display: inline-block;">
+        <label for="color-checkbox"> Text Color: </label>
+        <input type="checkbox" name="color-checkbox" id="color-checkbox">
+        <input type="color" name="color" id="color" value="#ffffff">
     </span>
 
     <hr>
@@ -77,7 +89,7 @@
     <style>
         .code {
             padding: 10px;
-            background-color: rgb(175, 175, 175);
+            background: rgb(175, 175, 175);
         }
 
         div.btn-row {
@@ -93,6 +105,7 @@
 
     <script>
         function createBtn(text, containerElement) {
+
             var div = document.createElement("div");
             div.classList.add("btn-row");
             var span = document.createElement("span");
@@ -103,7 +116,7 @@
             div.appendChild(btnWrap);
             containerElement.appendChild(div);
 
-            return bitbtn.create(btnWrap, {
+            var btnConfig = {
                 label: "Make Payment",
                 address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
                 amount: 1,
@@ -112,17 +125,26 @@
                 onError: function (error) {
                     console.log(error);
                 },
-            });
+            };
+            if (document.getElementById("color-checkbox").checked)
+                btnConfig.textColor = document.getElementById("color").value;
+            if (document.getElementById("background-checkbox").checked)
+                btnConfig.backgroundColor = document.getElementById("background").value;
+
+            return bitbtn.create(btnWrap, btnConfig);
         }
 
-        btnArea = document.getElementById("button-area");
-
-        createBtn("Neutral :", btnArea);
-        createBtn("Success :", btnArea).showSuccessInCircle();
-        createBtn("Failure :", btnArea).showErrorInCircle();
-        createBtn("Loading :", btnArea).showLoadingInCircle();
-        createBtn("No Amount :", btnArea).setAmount("");
-        createBtn("No Label :", btnArea).setLabel("");
+        function initButtons(){
+            btnArea = document.getElementById("button-area");
+            btnArea.innerHTML = "";
+            createBtn("Neutral :", btnArea);
+            createBtn("Success :", btnArea).showSuccessInCircle();
+            createBtn("Failure :", btnArea).showErrorInCircle();
+            createBtn("Loading :", btnArea).showLoadingInCircle();
+            createBtn("No Amount :", btnArea).setAmount("");
+            createBtn("No Label :", btnArea).setLabel("");
+        }
+        initButtons();
     </script>
 
     <script>
@@ -142,6 +164,10 @@
             setCSSLink(this.value, cssId + "-addon", "body");
         };
 
+        document.getElementById("color-checkbox").onchange = function(e) { initButtons(); };
+        document.getElementById("background-checkbox").onchange = function(e) { initButtons(); };
+        document.getElementById("color").onchange = function(e) { initButtons(); };
+        document.getElementById("background").onchange = function(e) { initButtons(); };
 
         function deleteCSSLink(id) {
             var link = document.getElementById(id);
