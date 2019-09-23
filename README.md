@@ -49,7 +49,7 @@ btn = bitbtn.create(
     });
 ```
 
-![BTN](https://raw.githubusercontent.com/bitsent/BitBtn/master/btn.PNG)
+![BTN](/btn.PNG)
 
 # Supported Currencies
 
@@ -134,6 +134,8 @@ btn = bitbtn.create(
 | outputs | Array |  | An array of outputs objects (explained bellow). |
 | paymentUrl | URL | https://api.bitsent.net/payments/pay | A url of the recipient of the BIP-270 payment. |
 | onError | Callback | empty callback | This method will be called if something goes wrong. |
+| backgroundColor | string | | A valid CSS color to be used as a background for the button |
+| textColor | string | | A valid CSS color to be used for the text of the button |
 | **Debug** |
 | debug | Boolean | false | A setting used when debugging the button. |
 | **Not Implemented** |
@@ -158,7 +160,26 @@ Their types, default values and descriptions were already explained above.
 
 # Customization
 
-You can change how the button looks, by including a CSS file with the right ID.
+You can change how the button looks by setting the properties for background color and text color.
+
+```js
+    btn = bitbtn.create(
+        document.getElementById("location-for-the-bitcoin-button"),
+        {
+            address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+            amount: 1.247,
+            currency: "USD",
+            backgroundColor: "#7070ff",
+            textColor: "white",
+        });
+```
+
+| default | changed |
+|---|---|
+| ![BTN](/btn.PNG) | ![BTN](/btn2.PNG) |
+
+
+You can also make more complex changes by including a CSS file with the right ID.
 
 ```html
     <link rel="stylesheet" href="custom-bitbtn-style.css" id="bitbtn-css">
