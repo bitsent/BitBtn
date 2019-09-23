@@ -570,9 +570,9 @@ bitbtn = (function bitbtn() {
       btn.href = uri;
     };
 
-    btn.setColors = function(backgroundColor, foregroundColor) {
+    btn.setColors = function(backgroundColor, textColor) {
       if(backgroundColor) btn.style.backgroundColor = backgroundColor;
-      if(foregroundColor) btn.style.color = foregroundColor;
+      if(textColor) btn.style.color = textColor;
     }
 
     var notWork = document.createElement("div");
@@ -754,8 +754,8 @@ bitbtn = (function bitbtn() {
         params.amount += params.outputs[i].amount;
       }
 
-      if ("foregroundColor" in params && typeof(params.foregroundColor) !== "string") {
-        throw new TypeError("foregroundColor must be a string");
+      if ("textColor" in params && typeof(params.textColor) !== "string") {
+        throw new TypeError("textColor must be a string");
       }
       if ("backgroundColor" in params && typeof(params.backgroundColor) !== "string") {
         throw new TypeError("backgroundColor must be a string");
@@ -1005,7 +1005,7 @@ bitbtn = (function bitbtn() {
     var roundedAmount = Math.round(btn.params.amount * 100) / 100;
     btn.setAmount(roundedAmount + " " + btn.params.currency.toUpperCase());
     btn.setLabel(btn.params.label);
-    btn.setColors(params.backgroundColor, params.foregroundColor)
+    btn.setColors(params.backgroundColor, params.textColor)
 
     if (btn.params.bip21 === true) {
       var out = btn.params.outputs[0];
