@@ -17,6 +17,9 @@
         <h3>Complex BIP-275 button:</h3>
         <div id="bip275btn-complex"></div>
         <hr>
+        <h3>Custom Color:</h3>
+        <div id="btn-color"></div>
+        <hr>
     </span>
 
     <script src="https://raw.githack.com/BitcoinSofia/html-console/master/htmlConsole.js"></script>
@@ -78,6 +81,20 @@
                     },
                 ],
                 debug: true,
+                onError: function (error) {
+                    console.log(error);
+                },
+            });
+
+        btn_colors = bitbtn.create(
+                document.getElementById("btn-color"), {
+                label: "Custom Color",
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 1.247,
+                debug: true,
+                currency: "USD",
+                backgroundColor: "#7070ee",
+                textColor: "#fff",
                 onError: function (error) {
                     console.log(error);
                 },

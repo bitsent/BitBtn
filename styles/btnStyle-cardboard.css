@@ -21,6 +21,11 @@
     color: #ffffff;
 }
 
+.bitbtn.hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
 .bitbtn span {
     margin: 0 0.15em;
     vertical-align: middle;
